@@ -1,4 +1,4 @@
-package com.darpad;
+package com.darpadVendor;
 
 import android.app.Application;
 import android.content.Context;

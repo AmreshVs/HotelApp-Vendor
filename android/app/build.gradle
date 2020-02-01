@@ -139,7 +139,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.darpad"
+        applicationId "com.darpadVendor"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

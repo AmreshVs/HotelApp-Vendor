@@ -1,4 +1,4 @@
-package com.darpad;
+package com.darpadVendor;
 
 import com.facebook.react.ReactActivity;
 

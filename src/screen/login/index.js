@@ -15,21 +15,22 @@ const LoginScreen = (props) => {
 
     const items = [
         {
-            uri: "https://r-cf.bstatic.com/images/hotel/max1024x768/779/77938171.jpg",
+            uri: "https://r-cf.bstatic.com/images/hotel/max1024x768/275/27550766.jpg",
         },
         {
-            uri: "https://q-cf.bstatic.com/images/hotel/max1024x768/205/205138280.jpg",
+            uri: "https://cache.marriott.com/marriottassets/marriott/CJBMD/cjbmd-lobby-8443-hor-feat.jpg?interpolation=progressive-bilinear&downsize=1180px:*",
         },
         {
-            uri: "https://captainsolo.website/wp-content/uploads/2019/10/sr-jungle-resort-1.jpg",
+            uri: "https://r-cf.bstatic.com/images/hotel/max1024x768/873/87363784.jpg",
         }
     ];
 
-    const [value, setValue] = React.useState('8675529268');
-    const [otpValue, setOtpValue] = React.useState('');
+    const [value, setValue] = React.useState('amreshcse007@gmail.com');
+    const [otpValue, setOtpValue] = React.useState('admin123');
     const [visible, setVisible] = React.useState(false);
     const [slideAnim] = React.useState(new Animated.Value(0));
     const [slideAnimOtp] = React.useState(new Animated.Value(500));
+    const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
     React.useEffect(() => {
         const retrieveData = async () => {
@@ -47,7 +48,6 @@ const LoginScreen = (props) => {
     }, [])
 
     const slideComp = () => {
-        sendOtp();
         Animated.spring(slideAnim, {
             toValue: -500,
         }).start();
@@ -68,7 +68,7 @@ const LoginScreen = (props) => {
     }
 
     const renderIcon = (style) => (
-        <Icon {...style} name='phone-call-outline' />
+        <Icon {...style} name='email-outline' />
     );
 
     const renderMsgIcon = (style) => (
@@ -79,13 +79,16 @@ const LoginScreen = (props) => {
         await AsyncStorage.setItem('@Darpad:userData', userData);
     };
 
-    const sendOtp = async () => {
-        const userData = await UserLoginAuth({mobile_number: value});
-        snackbarMessage(userData.message)
-    }
+    const onIconPress = () => {
+        setSecureTextEntry(!secureTextEntry);
+      };
+    
+    const renderPassIcon = (style) => (
+    <Icon {...style} name={secureTextEntry ? 'eye-off' : 'eye'}/>
+    );
 
     const loginWithOtp = async () => {
-        const userData = await UserLoginAuth({mobile_number: value, otp: otpValue});
+        const userData = await UserLoginAuth({username: value, password: otpValue});
         props.userLogin(userData.data);
         const token = userData.data.access_token;
         snackbarMessage(userData.message)
@@ -118,11 +121,11 @@ const LoginScreen = (props) => {
                         keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"}
                         style={styles.input}
                         size='small'
-                        placeholder='Enter mobile number'
+                        placeholder='Enter Username'
                         icon={renderIcon}
                         onChangeText={setValue}
                     />
-                    <Button style={styles.btnInput} appearance='filled' onPress={slideComp}>Get OTP</Button>
+                    <Button style={styles.btnInput} appearance='filled' onPress={slideComp}>Continue</Button>
                 </KeyboardAvoidingView>
             </Animated.View>
             <Animated.View
@@ -136,12 +139,14 @@ const LoginScreen = (props) => {
             >
                 <KeyboardAvoidingView style={styles.inputOtpContainer} behavior="padding" enabled>
                     <Input
-                        value={otpValue}
                         keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"}
-                        style={styles.input}
-                        placeholder='Enter OTP'
-                        icon={renderMsgIcon}
+                        value={otpValue}
                         size='small'
+                        style={styles.input}
+                        placeholder='********'
+                        icon={renderPassIcon}
+                        secureTextEntry={secureTextEntry}
+                        onIconPress={onIconPress}
                         onChangeText={setOtpValue}
                     />
                     <View style={styles.btnContainer}>
