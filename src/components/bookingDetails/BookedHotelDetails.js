@@ -98,7 +98,7 @@ const BookedHotelDetails = (props) => {
             <View style={styles.hrLine}></View>
             <View style={styles.btnContainer}>
                 <Button style={styles.btns} status='danger' size='small' icon={CloseIcon} disabled={props.data.status === '1' ? false : true} onPress={cancelBook}>Cancel Booking</Button>
-                <Button style={styles.btns} status='primary' size='small' icon={CallIcon}>Call Hotel</Button>
+                {/* <Button style={styles.btns} status='primary' size='small' icon={CallIcon}>Call Hotel</Button> */}
             </View>
         </Card>
     )
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     },
     btnContainer:{
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
     btns:{
         width: '48%',

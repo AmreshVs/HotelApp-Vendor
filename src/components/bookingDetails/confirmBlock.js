@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Card, Text, Icon } from '@ui-kitten/components';
 
 const ConfirmBlock = (props) => {
-
+console.log(props);
     var bgClr = '';
     if(props.status === '1' || props.status === '4'){
         bgClr = '#19b752';
@@ -16,9 +16,9 @@ const ConfirmBlock = (props) => {
         <Card style={[styles.container, {backgroundColor: bgClr}]}>
             <View style={styles.bookingContainer}>
                 <Icon name='checkmark-circle-outline' style={styles.checkIcon} fill='#FFF' />
-                <Text style={styles.confirmed}>Your Booking is {props.status_label}!</Text>
-                <Text style={styles.bookingCaption}>Your booking ID is #{props.booking_id}.</Text> 
-                {props.transaction_id === '' ? <Text style={styles.caption}>The amount of ₹{props.total} can be payed upon your arrival. This booking can be cancelled anytime here.</Text> : <Text style={styles.caption}> Your payment is successfull and Transaction ID is {props.transaction_id}. Now Check In to your rooms hassle free.</Text>}
+                <Text style={styles.confirmed}>Booking is {props.status_label}!</Text>
+                <Text style={styles.bookingCaption}>booking ID is #{props.booking_id}.</Text> 
+                {props.transaction_id === '' || props.transaction_id === '-' ? <Text style={styles.caption}>The amount of ₹{props.total} will be payed upon arrival. </Text> : <Text style={styles.caption}> Payment is successfull and Transaction ID is {props.transaction_id}.</Text>}
             </View>
         </Card>
     )

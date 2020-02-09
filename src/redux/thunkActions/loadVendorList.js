@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const LoadBookingsDetails = async (token, id) => {
+const LoadVendorList = async (token) => {
     return await axios({
         method: 'GET',
-        url: 'https://pandaapi.amreshrepos.ml/api/v1/get-vendor-details?booking_id=' + id,
+        url: 'https://pandaapi.amreshrepos.ml/api/v1/get-agent-list',
         headers:{
             'Accept-Language' : 'en',
             'Authorization': token
@@ -17,4 +17,4 @@ const LoadBookingsDetails = async (token, id) => {
     });
 }
 
-export default LoadBookingsDetails;
+export default LoadVendorList;

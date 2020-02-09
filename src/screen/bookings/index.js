@@ -43,7 +43,7 @@ const BookingssScreen = (props) => {
             <NavigationEvents
                 onWillFocus={reloadData}
             />
-            <TopNavSimple screenTitle='Your Bookings' backHandler={() => props.navigation.goBack()} />
+            <TopNavSimple screenTitle='Bookings' backHandler={() => props.navigation.goBack()} />
             <TabView
                 selectedIndex={selectedIndex}
                 shouldLoadComponent={shouldLoadComponent}

@@ -3,7 +3,7 @@ import axios from 'axios';
 const LoadBookingsHistory = async (token) => {
     return await axios({
         method: 'GET',
-        url: 'https://pandaapi.amreshrepos.ml/api/v1/get-booking-history',
+        url: 'https://pandaapi.amreshrepos.ml/api/v1/get-vendor-booking',
         headers:{
             'Accept-Language' : 'en',
             'Authorization': token

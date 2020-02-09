@@ -2,16 +2,19 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
 import styles from './styles';
-import SearchHotelCard from '../../components/home/searchHotelCard';
-import Head from '../../components/home/head';
-import RecommendedRooms from '../../components/home/recommenedRooms';
-import ExclusiveRooms from '../../components/home/exclusiveRooms';
 import LoadHomeData from '../../redux/thunkActions/loadHomeData';
 import { NavigationEvents } from 'react-navigation';
+import DashboardHead from '../../components/dashboard/head';
+import HeadCounts from '../../components/dashboard/headCounts';
+import BodyCounts from '../../components/dashboard/bodyCounts';
+import InventoryCounts from '../../components/dashboard/inventoryCounts';
+
+import HeadSK from '../../components/skeletons/dashboard/headSK';
+import BookingsCount from '../../components/skeletons/dashboard/bookingsSK';
 
 const HomeScreen = (props) => {
 
-  const [data, setData] = React.useState({});
+  const [data, setData] = React.useState([]);
 
   useEffect(() => {
     async function loadDatas(){
@@ -22,7 +25,7 @@ const HomeScreen = (props) => {
   }, [])
 
   const reloadData = async () => {
-    setData({});
+    setData([]);
     const rdata = await LoadHomeData(props.access_token);
     setData(rdata);
   }
@@ -32,10 +35,11 @@ const HomeScreen = (props) => {
       <NavigationEvents
         onDidFocus={reloadData}
       />
-      <Head/>
-      <SearchHotelCard/>
-      <RecommendedRooms data={data.recommended} />
-      <ExclusiveRooms data={data.exclusive} />
+      <DashboardHead/>
+      {data.length <= 0 ? <HeadSK/> : <HeadCounts bookingCount={data.amount_based} />}
+      {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Bookings" bookingCount={data.booking_count} />}
+      {data.length <= 0 ? <BookingsCount/> : <InventoryCounts name="Inventory" bookingCount={data.Inventory} />}
+      {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Agent Bookings" bookingCount={data.agent_booking_count} />}
     </ScrollView>
   );
 };

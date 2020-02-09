@@ -3,7 +3,7 @@ import axios from 'axios';
 const LoadHomeData = async (token) => {
     return await axios({
         method: 'GET',
-        url: 'https://pandaapi.amreshrepos.ml/api/v1/home',
+        url: 'https://pandaapi.amreshrepos.ml/api/v1/get-vendor-dashboard',
         headers:{
             'Accept-Language' : 'en',
             'Authorization': token
