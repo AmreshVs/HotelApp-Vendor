@@ -11,7 +11,7 @@ const Main = (props) => {
     React.useEffect(() => {
         const retrieveData = async () => {
             try {
-                const userData = await AsyncStorage.getItem('@Darpad:userData');
+                const userData = await AsyncStorage.getItem('@DarpadVendor:userData');
                 if (userData !== null) {
                     props.userLogin(JSON.parse(userData));
                     props.navigation.navigate('Home');

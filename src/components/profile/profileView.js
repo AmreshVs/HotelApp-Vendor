@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 const ProfileView = (props) => {
 
     const logout = async () => {
-        const userData = await AsyncStorage.removeItem('@Darpad:userData');
+        const userData = await AsyncStorage.removeItem('@DarpadVendor:userData');
         if (userData === null) {
             props.navigation.navigate('LoginScreen');
         }

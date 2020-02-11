@@ -32,11 +32,11 @@ const App = () => {
 };
 
 if (Platform.OS === 'web') {
-  AppRegistry.runApplication('Darpad', {
+  AppRegistry.runApplication('DarpadVendor', {
     rootTag: document.getElementById('root'),
   });
 }
 
 export default App;
 
-AppRegistry.registerComponent('Darpad', () => App);
+AppRegistry.registerComponent('DarpadVendor', () => App);

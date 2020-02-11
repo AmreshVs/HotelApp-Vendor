@@ -35,7 +35,7 @@ const LoginScreen = (props) => {
     React.useEffect(() => {
         const retrieveData = async () => {
             try {
-                const userData = await AsyncStorage.getItem('@Darpad:userData');
+                const userData = await AsyncStorage.getItem('@DarpadVendor:userData');
                 if (userData !== null) {
                     props.userLogin(JSON.parse(userData));
                     props.navigation.navigate('Home');
@@ -76,7 +76,7 @@ const LoginScreen = (props) => {
     );
 
     const storeAsyncData = async (userData) => {
-        await AsyncStorage.setItem('@Darpad:userData', userData);
+        await AsyncStorage.setItem('@DarpadVendor:userData', userData);
     };
 
     const onIconPress = () => {
