@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --port 8082",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "clean": "cd android && gradlew clean",
     "test": "jest",
     "lint": "eslint .",
     "build-android": "./gradlew assembleRelease"

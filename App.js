@@ -16,8 +16,9 @@ const App = () => {
 
     // OneSignal.addEventListener('received', this.onReceived);
     // OneSignal.addEventListener('opened', this.onOpened);
-    // OneSignal.addEventListener('ids', this.onIds);
+    // OneSignal.addEventListener('ids', onIds);
   }, [])
+  // const onIds = (data) => {console.log(data);}
 
   return (
     <React.Fragment>

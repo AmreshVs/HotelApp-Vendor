@@ -7,49 +7,49 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const TopNavSimple = (props) => {
 
-    const BackIcon = () => <Icon name='arrow-ios-back-outline' fill='#FFF' />;
+  const BackIcon = () => <Icon name='arrow-ios-back-outline' fill='#FFF' />;
 
-    const navigateBack = () => {
-        props.navigation.goBack();
-    };
+  const navigateBack = () => {
+    props.navigation.goBack();
+  };
 
-    const BackAction = () => (
-        <Ripple onPress={props.backHandler !== undefined ? props.backHandler : navigateBack}>
-            <TopNavigationAction icon={BackIcon} />
-        </Ripple>
-    );
+  const BackAction = () => (
+    <Ripple onPress={props.backHandler !== undefined ? props.backHandler : navigateBack}>
+      <TopNavigationAction icon={BackIcon} />
+    </Ripple>
+  );
 
-    return(
-        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#1947eb', '#006df7', '#0059e2']} style={styles.headerGradient}>
-            <TopNavigation title={props.screenTitle} titleStyle={styles.title} alignment='center' leftControl={BackAction()} style={styles.header} />
-        </LinearGradient>
-    )
+  return (
+    <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#1947eb', '#006df7', '#0059e2']} style={styles.headerGradient}>
+      <TopNavigation title={props.screenTitle} titleStyle={styles.title} alignment='center' leftControl={BackAction()} rightControls={props.rightControl === true ? props.rightControlFun() : null} style={styles.header} />
+    </LinearGradient>
+  )
 }
 
 export default withNavigation(TopNavSimple);
 
 const styles = StyleSheet.create({
-    header:{
-        backgroundColor: 'transparent',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+  header: {
+    backgroundColor: 'transparent',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    headerGradient:{
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  headerGradient: {
 
-    },
-    title:{
-        width: '60%',
-        height: 30,
-        fontSize: 16,
-        fontWeight: 'bold',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
-        color: '#FFF',
-    },
+  },
+  title: {
+    width: '60%',
+    height: 30,
+    fontSize: 16,
+    fontWeight: 'bold',
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    color: '#FFF',
+  },
 })

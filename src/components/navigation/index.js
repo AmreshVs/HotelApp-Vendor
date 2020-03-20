@@ -19,6 +19,7 @@ import BookingDetails from '../../screen/bookings/bookingDetails';
 import BookingConfirmed from '../../screen/hotels/bookingConfirmed';
 import AfterBooking from '../../screen/bookings/afterBooking';
 import AgentsScreen from '../../screen/agents/index';
+import NotificationsScreen from '../../screen/notifications/index';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { Transition } from 'react-native-reanimated';
 
@@ -27,8 +28,9 @@ const TabNavigation = createBottomTabNavigator(
     Home: HomeScreen,
     // FavouritesScreen: FavouritesScreen,
     AgentsScreen: AgentsScreen,
+    NotificationsScreen: NotificationsScreen,
     BookingsScreen: BookingsScreen,
-    UserProfileScreen: UserProfileScreen,
+    UserProfileScreen: UserProfileScreen
   },
   {
     unmountInactiveRoutes: true,
