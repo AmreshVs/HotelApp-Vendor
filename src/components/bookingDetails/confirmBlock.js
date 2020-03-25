@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Card, Text, Icon } from '@ui-kitten/components';
 
 const ConfirmBlock = (props) => {
-console.log(props);
+
     var bgClr = '';
     if(props.status === '1' || props.status === '4'){
         bgClr = '#19b752';

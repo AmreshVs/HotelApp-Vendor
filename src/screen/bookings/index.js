@@ -33,7 +33,7 @@ const BookingssScreen = (props) => {
     }, []);
 
     const reloadData = async () => {
-        setData([]);
+        setData({});
         const response = await LoadBookingHistory(props.access_token);
         setData(response);
     }

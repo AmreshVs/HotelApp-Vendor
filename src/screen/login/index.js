@@ -46,12 +46,12 @@ const LoginScreen = (props) => {
 
       }
     }
-    retrieveData();
     OneSignal.addEventListener('ids', onIds);
+    retrieveData();
   }, [])
 
-  // return user id
-  const onIds = data => setUserId(data.userId);
+  // return one signal user id
+  const onIds = (data) => setUserId(data.userId);
 
   const slideComp = () => {
     Animated.spring(slideAnim, {

@@ -15,7 +15,7 @@ const App = () => {
     OneSignal.init("9cf8c27d-0a89-4e7d-bb2a-d24e8bfd03ab");
 
     // OneSignal.addEventListener('received', this.onReceived);
-    // OneSignal.addEventListener('opened', this.onOpened);
+    // OneSignal.addEventListener('opened', notificationOpen);
     // OneSignal.addEventListener('ids', onIds);
   }, [])
   // const onIds = (data) => {console.log(data);}

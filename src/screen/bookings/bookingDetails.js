@@ -18,7 +18,6 @@ import LoadBookingDetails from '../../redux/thunkActions/loadBookingDetails';
 const BookingDetails = (props) => {
 
   const [data, setData] = React.useState([]);
-
   useEffect(() => {
     async function loadDatas() {
       const response = await LoadBookingDetails(props.access_token, props.navigation.state.params.id);
@@ -47,7 +46,7 @@ const BookingDetails = (props) => {
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
           {data.length <= 0 ? <ConfirmBlockSK /> : <ConfirmBlock booking_id={data.booking_id} total={data.total} status={data.status} status_label={data.status_label} transaction_id={data.transaction_id} />}
-          {data.length <= 0 ? <BookedDetailsSK /> : <BookedHotelDetails data={data} token={props.access_token} reloadData={reloadData} />}
+          {data.length <= 0 ? <BookedDetailsSK /> : <BookedHotelDetails data={data} token={props.access_token} reloadData={reloadData} user_type={props.navigation.state.params.user_type || data.user_type} notify_id={props.navigation.state.params.notify_id || data.notify_id} />}
           {/* {data.length <= 0 ? <HelpBlockSK/> : <HelpBlock/>} */}
         </View>
       </ScrollView>
