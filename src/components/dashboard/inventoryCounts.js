@@ -9,16 +9,16 @@ const InventoryCounts = (props) => {
             <View style={styles.container}>
                 <View style={styles.row}>
                     <View style={styles.countsContainer}>
-                        <Text style={styles.count}>{props.bookingCount.Available}</Text>
+                        <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.Available : 0}</Text>
                         <Text style={styles.caption}>Available</Text>
                     </View>
                     <View style={styles.countsContainer}>
-                        <Text style={styles.count}>{props.bookingCount.Sold}</Text>
+                        <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.Sold : 0}</Text>
                         <Text style={styles.caption}>Sold</Text>
                     </View>
                 </View>
                 <View style={styles.countsContainer}>
-                    <Text style={styles.count}>{props.bookingCount.Blocked}</Text>
+                    <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.Blocked : 0}</Text>
                     <Text style={styles.caption}>Blocked</Text>
                 </View>
             </View>

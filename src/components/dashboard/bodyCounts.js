@@ -9,16 +9,16 @@ const BodyCounts = (props) => {
             <View style={styles.container}>
                 <View style={styles.row}>
                     <View style={styles.countsContainer}>
-                        <Text style={styles.count}>{props.bookingCount.upcoming}</Text>
+                        <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.upcoming : 0}</Text>
                         <Text style={styles.caption}>Upcoming</Text>
                     </View>
                     <View style={styles.countsContainer}>
-                        <Text style={styles.count}>{props.bookingCount.complete}</Text>
+                        <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.complete : 0}</Text>
                         <Text style={styles.caption}>Complete</Text>
                     </View>
                 </View>
                 <View style={styles.countsContainer}>
-                    <Text style={styles.count}>{props.bookingCount.cancel}</Text>
+                    <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.cancel : 0}</Text>
                     <Text style={styles.caption}>Cancel</Text>
                 </View>
             </View>

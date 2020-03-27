@@ -43,7 +43,7 @@ const NotificationsScreen = (props) => {
     const status = await ReadNotification({id: notification_id}, props.access_token);
     const heading = "Your Booking is confirmed";
     const content = "Your Booking with ID " + booking_id + " has been approved!";
-    const saveNotify = await SaveNotification({ user_id: user_id, booking_id: booking_id, type: 'booking', heading: heading, content: content }, props.access_token);
+    const saveNotify = await SaveNotification({ user_id: user_id, booking_id: booking_id, type: 'booking', heading: heading, content: content, notify_to: 'user' }, props.access_token);
     const notifyData = { action: 'approve', notification_id: saveNotify.data.id, booking_id: saveNotify.data.booking_id };
     SendNotification(heading, content, [], notifyData, oneSignalUserId);
     if(status){
@@ -56,8 +56,8 @@ const NotificationsScreen = (props) => {
     const status = await ReadNotification({id: notification_id}, props.access_token);
     const heading = "Your Booking is cancelled";
     const content = "Your Booking with ID " + booking_id + " has not been approved!";
-    const saveNotify = await SaveNotification({ user_id: user_id, booking_id: booking_id, type: 'booking', heading: heading, content: content }, props.access_token);
-    const notifyData = { action: 'approve', notification_id: saveNotify.data.id, booking_id: saveNotify.data.booking_id };
+    const saveNotify = await SaveNotification({ user_id: user_id, booking_id: booking_id, type: 'cancel', heading: heading, content: content, notify_to: 'user' }, props.access_token);
+    const notifyData = { action: 'cancel', notification_id: saveNotify.data.id, booking_id: saveNotify.data.booking_id };
     SendNotification(heading, content, [], notifyData, oneSignalUserId);
     if(status){
       reloadData();

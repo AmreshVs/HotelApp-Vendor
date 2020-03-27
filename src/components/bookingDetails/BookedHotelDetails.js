@@ -34,7 +34,7 @@ const BookedHotelDetails = (props) => {
             const response = await CancelBooking(props.data.booking_id, props.token);
             const heading = "Your Booking is cancelled";
             const content = "Your Booking with ID " + props.data.booking_id + " has not been approved!";
-            const saveNotify = await SaveNotification({ user_id: props.data.user_id, booking_id: props.data.booking_id, type: 'booking', heading: heading, content: content }, props.token);
+            const saveNotify = await SaveNotification({ user_id: props.data.user_id, booking_id: props.data.booking_id, type: 'booking', heading: heading, content: content, notify_to: 'user' }, props.token);
             const notifyData = { action: 'cancel', notification_id: saveNotify.data.id, booking_id: saveNotify.data.booking_id };
             SendNotification(heading, content, [], notifyData, props.data.oneSignalUserId);
             snackbarMessage(response.message);
@@ -52,7 +52,7 @@ const BookedHotelDetails = (props) => {
     console.log(status)
     const heading = "Your Booking is confirmed";
     const content = "Your Booking with ID " + props.data.booking_id + " has been approved!";
-    const saveNotify = await SaveNotification({ user_id: props.data.user_id, booking_id: props.data.booking_id, type: 'booking', heading: heading, content: content }, props.token);
+    const saveNotify = await SaveNotification({ user_id: props.data.user_id, booking_id: props.data.booking_id, type: 'booking', heading: heading, content: content, notify_to: 'user' }, props.token);
     const notifyData = { action: 'approve', notification_id: saveNotify.data.id, booking_id: saveNotify.data.booking_id };
     SendNotification(heading, content, [], notifyData, props.data.oneSignalUserId);
     if(status){

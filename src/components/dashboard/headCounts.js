@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
-import { withNavigation } from 'react-navigation';
 
 const HeadCount = (props) =>{
 
@@ -9,21 +8,21 @@ const HeadCount = (props) =>{
   <View style={styles.searchCard}>
     <View style={styles.row}>
         <View style={styles.countContainer}>
-            <Text style={styles.count}>₹{props.bookingCount.total_revenue}</Text>
+            <Text style={styles.count}>₹{props.bookingCount !== undefined ? props.bookingCount.total_revenue : 0}</Text>
             <Text style={styles.caption}>Total Revenue</Text>
         </View>
         <View style={styles.countContainer}>
-            <Text style={styles.count}>₹{props.bookingCount.today_revenue}</Text>
+            <Text style={styles.count}>₹{props.bookingCount !== undefined ? props.bookingCount.today_revenue : 0}</Text>
             <Text style={styles.caption}>Today Revenue</Text>
         </View>
     </View>
     <View style={styles.row}>
         <View style={styles.countContainer}>
-            <Text style={styles.count}>{props.bookingCount.total_bookings}</Text>
+            <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.total_bookings : 0}</Text>
             <Text style={styles.caption}>Total Bookings</Text>
         </View>
         <View style={styles.countContainer}>
-            <Text style={styles.count}>{props.bookingCount.today_bookings}</Text>
+            <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.today_bookings : 0}</Text>
             <Text style={styles.caption}>Today Bookings</Text>
         </View>
     </View>
