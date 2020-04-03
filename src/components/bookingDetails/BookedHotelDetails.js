@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
-import { Card, Button, Text, Icon } from '@ui-kitten/components';
+import { View, Image, Alert } from 'react-native';
+import { Card, Button, Text, Icon, StyleService, useStyleSheet } from '@ui-kitten/components';
 import CancelBooking from '../../redux/thunkActions/cancelBooking';
 import snackbarMessage from '../../redux/thunkActions/snackbarMessage';
 import ReadNotification from '../../commonFunctions/readNotifications';
@@ -9,7 +9,8 @@ import SaveNotification from '../../commonFunctions/saveNotification';
 import SendNotification from '../../commonFunctions/sendNotification';
 
 const BookedHotelDetails = (props) => {
-  
+
+  const styles = useStyleSheet(themedStyle);
 
   const CloseIcon = () => (
     <Icon style={styles.btnIcons} name='close-circle-outline' fill='#FFF' />
@@ -47,15 +48,14 @@ const BookedHotelDetails = (props) => {
   }
 
   const approveBook = async () => {
-    UpdateBookingStatus({booking_id: props.data.booking_id, status: 1}, props.token);
-    const status = await ReadNotification({id: props.notify_id}, props.token);
-    console.log(status)
+    UpdateBookingStatus({ booking_id: props.data.booking_id, status: 1 }, props.token);
+    const status = await ReadNotification({ id: props.notify_id }, props.token);
     const heading = "Your Booking is confirmed";
     const content = "Your Booking with ID " + props.data.booking_id + " has been approved!";
     const saveNotify = await SaveNotification({ user_id: props.data.user_id, booking_id: props.data.booking_id, type: 'booking', heading: heading, content: content, notify_to: 'user' }, props.token);
     const notifyData = { action: 'approve', notification_id: saveNotify.data.id, booking_id: saveNotify.data.booking_id };
     SendNotification(heading, content, [], notifyData, props.data.oneSignalUserId);
-    if(status){
+    if (status) {
       props.reloadData();
     }
   }
@@ -70,7 +70,7 @@ const BookedHotelDetails = (props) => {
               <Text>Check In</Text>
               <Text style={styles.caption}>{props.data.start_date}</Text>
             </View>
-            <Icon name='swap-outline' style={styles.personIcon} fill='#3366FF' />
+            <Icon name='swap-outline' style={styles.personIcon} fill={styles.iconColor.color} />
             <View style={styles.datesRight}>
               <Text>Check Out</Text>
               <Text style={styles.caption}>{props.data.end_date}</Text>
@@ -89,15 +89,15 @@ const BookedHotelDetails = (props) => {
         </View>
         <View style={styles.bookInfoContainer}>
           <View style={styles.bookInfo}>
-            <Icon name='person-outline' style={styles.InfoIcon} fill='#3366FF' />
+            <Icon name='person-outline' style={styles.InfoIcon} fill={styles.iconColor.color} />
             <Text style={styles.infoCaption}>Adult's : {props.data.adults}</Text>
           </View>
           <View style={styles.bookInfo}>
-            <Icon name='people-outline' style={styles.InfoIcon} fill='#3366FF' />
+            <Icon name='people-outline' style={styles.InfoIcon} fill={styles.iconColor.color} />
             <Text style={styles.infoCaption}>Children : {props.data.children}</Text>
           </View>
           <View style={styles.bookInfo}>
-            <Icon name='npm-outline' style={styles.InfoIcon} fill='#3366FF' />
+            <Icon name='npm-outline' style={styles.InfoIcon} fill={styles.iconColor.color} />
             <Text style={styles.infoCaption}>Room's : {props.data.rooms}</Text>
           </View>
         </View>
@@ -122,7 +122,7 @@ const BookedHotelDetails = (props) => {
       <View style={styles.hrLine}></View>
       <View style={styles.btnContainer}>
         <Button style={styles.btns} status='danger' size='small' icon={CloseIcon} disabled={props.data.status === '1' ? false : true} onPress={cancelBook}>Cancel Booking</Button>
-        {props.user_type === 'editor' && 
+        {props.user_type === 'editor' &&
           <Button style={styles.btns} status='primary' size='small' icon={ApproveIcon} disabled={props.data.status === '2' ? false : true} onPress={approveBook}>Approve Booking</Button>
         }
         {/* <Button style={styles.btns} status='primary' size='small' icon={CallIcon}>Call Hotel</Button> */}
@@ -133,7 +133,7 @@ const BookedHotelDetails = (props) => {
 
 export default BookedHotelDetails;
 
-const styles = StyleSheet.create({
+const themedStyle = StyleService.create({
   container: {
     width: '100%',
     borderRadius: 10,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
   },
   confirmed: {
-    color: '#626262',
+    color: 'color-basic-700',
     fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
@@ -169,12 +169,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   caption: {
-    color: '#BBB'
+    color: 'color-basic-600'
   },
   hrLine: {
     width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: '#EEE',
+    borderBottomColor: 'color-basic-300',
     marginTop: 30,
     marginBottom: 30,
   },
@@ -192,18 +192,18 @@ const styles = StyleSheet.create({
   },
   hotelName: {
     fontWeight: '700',
-    color: '#626262',
+    color: 'color-basic-700',
   },
   info: {
     marginTop: 20,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: '#EEE',
+    borderTopColor: 'color-basic-300',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   address: {
-    color: '#626262',
+    color: 'color-basic-700',
   },
   bookInfoContainer: {
     marginTop: 20,
@@ -218,14 +218,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoCaption: {
-    color: '#BBB',
+    color: 'color-basic-600',
     paddingTop: 7,
   },
   heading: {
     textAlign: 'left',
   },
   serviceCaption: {
-    color: '#626262'
+    color: 'color-basic-700'
   },
   priceContainer: {
     marginTop: 30,
@@ -236,19 +236,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   totalCaption: {
-    color: '#3366FF',
+    color: 'color-primary-500',
     fontWeight: '700',
   },
   btnContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-between'
   },
   btns: {
-    width: '45%',
+    width: '48%',
   },
   btnIcons: {
     width: 23,
     height: 23,
     marginRight: 0,
+  },
+  iconColor: {
+    color: 'color-primary-500'
   }
 });

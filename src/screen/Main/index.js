@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Image } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { userLogin } from '../../redux/actions/commonActions';
+import { useNavigation } from '@react-navigation/native';
 import { AsyncStorage, StyleSheet, View } from 'react-native';
 import OneSignal from 'react-native-onesignal';
 
+import { userLogin } from '../../redux/actions/commonActions';
+
 const Main = (props) => {
+
+  const navigation = useNavigation();
 
   React.useEffect(() => {
     const retrieveData = async () => {
@@ -15,10 +18,10 @@ const Main = (props) => {
         const userData = await AsyncStorage.getItem('@DarpadVendor:userData');
         if (userData !== null) {
           props.userLogin(JSON.parse(userData));
-          props.navigation.navigate('Home');
+          navigation.navigate('Home');
         }
         else {
-          props.navigation.navigate('LoginScreen');
+          navigation.navigate('LoginScreen');
         }
       } catch (error) {
 
@@ -29,9 +32,9 @@ const Main = (props) => {
   }, [])
 
   const notificationOpen = (data) => {
-    if(data.payload.additionalData !== null){
-      if(data.payload.additionalData.action === 'approve' || data.payload.additionalData.action === 'cancel'){
-        props.navigation.navigate('NotificationsScreen');
+    if (data.payload.additionalData !== null) {
+      if (data.payload.additionalData.action === 'approve' || data.payload.additionalData.action === 'cancel') {
+        navigation.navigate('NotificationsScreen');
       }
     }
   };
@@ -52,7 +55,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ userLogin: userLogin }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Main));
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const styles = StyleSheet.create({
   container: {

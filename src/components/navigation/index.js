@@ -1,6 +1,7 @@
 import React from 'react';
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import LoginScreen from '../../screen/login/index';
 import Main from '../../screen/Main/index';
 import HomeScreen from '../../screen/home/index';
@@ -10,46 +11,32 @@ import BottomNav from '../navigation/bottomNavigation';
 import BookingDetails from '../../screen/bookings/bookingDetails';
 import AgentsScreen from '../../screen/agents/index';
 import NotificationsScreen from '../../screen/notifications/index';
-import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
-import { Transition } from 'react-native-reanimated';
 
-const TabNavigation = createBottomTabNavigator(
-  {
-    Home: HomeScreen,
-    AgentsScreen: AgentsScreen,
-    NotificationsScreen: NotificationsScreen,
-    BookingsScreen: BookingsScreen,
-    UserProfileScreen: UserProfileScreen
-  },
-  {
-    unmountInactiveRoutes: true,
-    tabBarComponent: BottomNav,
-    resetOnBlur: true,
-  }
-);
+const Tab = createBottomTabNavigator();
 
-const rootStack = createAnimatedSwitchNavigator(
-  {
-    Main: Main,
-    LoginScreen: LoginScreen,
-    Home: TabNavigation,
-    BookingDetails: BookingDetails,
-  },
-  {
-    headerMode: 'none',
-    backBehavior: 'history',
-    transition: (
-      <Transition.Together>
-        <Transition.Out
-          propagation="top"
-          type="scale"
-          durationMs={100}
-          interpolation="easeOut"
-        />
-        <Transition.In type="scale" durationMs={300} />
-      </Transition.Together>
-    ),
-  },
-);
+const TabNavigation = () => {
+  return (
+    <Tab.Navigator tabBar={props => <BottomNav {...props} />}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="AgentsScreen" component={AgentsScreen} />
+      <Tab.Screen name="NotificationsScreen" component={NotificationsScreen} />
+      <Tab.Screen name="BookingsScreen" component={BookingsScreen} />
+      <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
+    </Tab.Navigator>
+  )
+}
 
-export const TabNavigator = createAppContainer(rootStack);
+const Stack = createStackNavigator();
+
+const TabNavigator = () => {
+  return (  
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="Home" component={TabNavigation} />
+      <Stack.Screen name="BookingDetails" component={BookingDetails} />
+    </Stack.Navigator>
+  )
+}
+
+export default TabNavigator;

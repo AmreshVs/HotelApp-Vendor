@@ -1,35 +1,39 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, Icon, Button } from '@ui-kitten/components';
+import { View } from 'react-native';
+import { Text, Icon, Button, StyleService, useStyleSheet } from '@ui-kitten/components';
 import Ripple from 'react-native-material-ripple';
-import { withNavigation } from 'react-navigation';
+import { useNavigation } from '@react-navigation/native';
+
 import ReadNotification from '../../commonFunctions/readNotifications';
 
 const Notifications = (props) => {
 
+  const navigation = useNavigation();
+  const styles = useStyleSheet(themedStyles);
+
   const navigateBookingdetail = (id, booking_id, user_type) => {
-    props.navigation.navigate('BookingDetails',{
+    navigation.navigate('BookingDetails', {
       id: id,
       user_type: user_type,
       notify_id: booking_id
     });
-    if(user_type !== 'editor'){
-      ReadNotification({id: booking_id}, props.token);
+    if (user_type !== 'editor') {
+      ReadNotification({ id: booking_id }, props.token);
     }
   }
 
   return (
-    props.data.map((item) => 
+    props.data.map((item) =>
       <View style={styles.cardContainer} key={item.id}>
-        {item.user_type === 'editor' && 
+        {item.user_type === 'editor' &&
           <View style={styles.agentContainer}>
             <Icon name='person-done-outline' fill='#FFF' width={25} height={25} />
           </View>
         }
         <Ripple style={styles.contentContainer} onPress={() => navigateBookingdetail(item.booking_id, item.id, item.user_type)}>
           <View style={styles.leftContainer}>
-            <View style={[{backgroundColor: item.type === 'booking' ? '#1EA82E' : '#D8462E'},styles.iconContainer]}>
-              {item.type === 'booking' ? 
+            <View style={[{ backgroundColor: item.type === 'booking' ? '#1EA82E' : '#D8462E' }, styles.iconContainer]}>
+              {item.type === 'booking' ?
                 <Icon name='checkmark-outline' fill='#FFF' width={40} height={40} />
                 :
                 <Icon name='close-outline' fill='#FFF' width={40} height={40} />
@@ -42,8 +46,8 @@ const Notifications = (props) => {
             <Text style={styles.datetime} category='c1'>{item.created_dt}</Text>
           </View>
         </Ripple>
-        {item.user_type === 'editor' && 
-          <View style={styles.actions}>  
+        {item.user_type === 'editor' &&
+          <View style={styles.actions}>
             <View style={styles.actionContainer}>
               <Button style={styles.button} appearance='outline' status='danger' size='small' onPress={() => props.cancel(item.booking_id, item.id, item.user_id, item.oneSignalUserId)}>Cancel</Button>
               <Button style={styles.button} appearance='outline' status='primary' size='small' onPress={() => props.approve(item.booking_id, item.id, item.user_id, item.oneSignalUserId)}>Approve</Button>
@@ -55,15 +59,15 @@ const Notifications = (props) => {
   )
 }
 
-export default withNavigation(Notifications);
+export default Notifications;
 
-const styles = StyleSheet.create({
-  cardContainer:{
+const themedStyles = StyleService.create({
+  cardContainer: {
     width: '95%',
     borderRadius: 5,
     marginTop: 10,
     padding: 13,
-    backgroundColor: '#FFF',
+    backgroundColor: 'background-basic-color-1',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -73,23 +77,23 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 2,
   },
-  leftContainer:{
+  leftContainer: {
     width: '20%',
     alignItems: 'center',
     justifyContent: 'center'
   },
-  rightContainer:{
+  rightContainer: {
     width: '80%'
   },
-  datetime:{
+  datetime: {
     textAlign: 'right'
   },
-  iconContainer:{
+  iconContainer: {
     borderRadius: 50,
     padding: 5
   },
-  agentContainer:{
-    backgroundColor: '#FFCB3D',
+  agentContainer: {
+    backgroundColor: 'color-warning-400',
     width: 40,
     height: 40,
     position: 'absolute',
@@ -97,19 +101,19 @@ const styles = StyleSheet.create({
     paddingLeft: 3,
     paddingTop: 3
   },
-  contentContainer:{
+  contentContainer: {
     flexDirection: 'row'
   },
-  actions:{
+  actions: {
     alignItems: 'flex-end'
   },
-  actionContainer:{
+  actionContainer: {
     width: '80%',
     paddingTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  button:{
+  button: {
     width: '45%'
   }
 })

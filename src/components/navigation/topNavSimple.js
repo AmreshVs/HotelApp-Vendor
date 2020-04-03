@@ -1,16 +1,17 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Icon, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
-import { withNavigation } from 'react-navigation';
+import { Icon, TopNavigation, TopNavigationAction, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 import Ripple from 'react-native-material-ripple';
 import LinearGradient from 'react-native-linear-gradient';
 
 const TopNavSimple = (props) => {
 
+  const navigation = useNavigation();
+  const styles = useStyleSheet(style);
   const BackIcon = () => <Icon name='arrow-ios-back-outline' fill='#FFF' />;
 
   const navigateBack = () => {
-    props.navigation.goBack();
+    navigation.goBack();
   };
 
   const BackAction = () => (
@@ -20,28 +21,17 @@ const TopNavSimple = (props) => {
   );
 
   return (
-    <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#1947eb', '#006df7', '#0059e2']} style={styles.headerGradient}>
+    <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={[styles.topbar.color1, styles.topbar.color2, styles.topbar.color3]}>
       <TopNavigation title={props.screenTitle} titleStyle={styles.title} alignment='center' leftControl={BackAction()} rightControls={props.rightControl === true ? props.rightControlFun() : null} style={styles.header} />
     </LinearGradient>
   )
 }
 
-export default withNavigation(TopNavSimple);
+export default TopNavSimple;
 
-const styles = StyleSheet.create({
+const style = StyleService.create({
   header: {
     backgroundColor: 'transparent',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  headerGradient: {
-
   },
   title: {
     width: '60%',
@@ -52,4 +42,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     color: '#FFF',
   },
+  topbar: {
+    color1: 'topBar-color-1',
+    color2: 'topBar-color-2',
+    color3: 'topBar-color-3'
+  }
 })

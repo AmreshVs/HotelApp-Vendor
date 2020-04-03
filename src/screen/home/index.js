@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
-import styles from './styles';
+import { useStyleSheet } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
+
+import themedStyle from './styles';
 import LoadHomeData from '../../redux/thunkActions/loadHomeData';
-import { NavigationEvents } from 'react-navigation';
 import DashboardHead from '../../components/dashboard/head';
 import HeadCounts from '../../components/dashboard/headCounts';
 import BodyCounts from '../../components/dashboard/bodyCounts';
@@ -14,6 +16,8 @@ import BookingsCount from '../../components/skeletons/dashboard/bookingsSK';
 
 const HomeScreen = (props) => {
 
+  const styles = useStyleSheet(themedStyle);
+  const navigation = useNavigation();
   const [data, setData] = React.useState([]);
 
   useEffect(() => {
@@ -22,6 +26,9 @@ const HomeScreen = (props) => {
       setData(response);
     }
     loadDatas();
+    navigation.addListener('focus', () => {
+      reloadData();
+    })
   }, [])
 
   const reloadData = async () => {
@@ -32,9 +39,6 @@ const HomeScreen = (props) => {
 
   return (
     <ScrollView style={styles.statusBarTop} showsVerticalScrollIndicator={false}>
-      <NavigationEvents
-        onDidFocus={reloadData}
-      />
       <DashboardHead/>
       {data.length <= 0 ? <HeadSK/> : <HeadCounts bookingCount={data.amount_based} />}
       {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Bookings" bookingCount={data.booking_count} />}

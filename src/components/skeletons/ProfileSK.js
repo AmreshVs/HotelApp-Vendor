@@ -1,6 +1,6 @@
 import React from 'react';
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { Card, Text } from '@ui-kitten/components';
+import { Card } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 
 const ProfileSK = () => {

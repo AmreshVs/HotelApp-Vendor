@@ -1,11 +1,11 @@
 import { AsyncStorage } from 'react-native';
-import NavigationService from '../components/navigation/navigationService';
+import RootNavigation from '../components/navigation/rootNavigation';
 
 const Logout = async () => {
 
   const userData = await AsyncStorage.removeItem('@DarpadVendor:userData');
   if (userData === null) {
-    NavigationService.navigate('LoginScreen');
+    RootNavigation.navigate('LoginScreen');
   }
 
 }
