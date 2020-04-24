@@ -1,13 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Icon, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
+import * as Animatable from 'react-native-animatable';
 
 const AgentsList = (props) => {
 
   const styles = useStyleSheet(themedStyle);
 
   return (
-    <View style={styles.container}>
+    <Animatable.View style={styles.container}  animation="bounceInLeft" direction="normal" duration={800} useNativeDriver={true} delay={props.delay * 20}>
       <View style={styles.nameContainer}>
         <View style={styles.leftText}>
           <Icon width={32} height={32} name="person-done-outline" fill='#3366FF' />
@@ -21,20 +22,20 @@ const AgentsList = (props) => {
       <View>
         <View style={styles.row}>
           <View style={styles.countContainer}>
-            <Text style={styles.count}>{props.blocked}</Text>
+            <Text style={[styles.count, styles.color1]}>{props.blocked}</Text>
             <Text style={styles.caption}>Blocked</Text>
           </View>
           <View style={styles.countContainer}>
-            <Text style={styles.count}>{props.completed}</Text>
+            <Text style={[styles.count, styles.color2]}>{props.completed}</Text>
             <Text style={styles.caption}>Completed</Text>
           </View>
           <View style={styles.countContainer}>
-            <Text style={styles.count}>{props.cancelled}</Text>
+            <Text style={[styles.count, styles.color3]}>{props.cancelled}</Text>
             <Text style={styles.caption}>Cancelled</Text>
           </View>
         </View>
       </View>
-    </View>
+    </Animatable.View>
   )
 }
 
@@ -45,6 +46,7 @@ const themedStyle = StyleService.create({
     width: '95%',
     height: 150,
     margin: 10,
+    marginBottom: 5,
     borderRadius: 10,
     backgroundColor: 'background-basic-color-1',
     borderColor: 'color-basic-300',
@@ -67,6 +69,15 @@ const themedStyle = StyleService.create({
   caption: {
     color: 'color-basic-600'
   },
+  color1: {
+    color: 'color-primary-500'
+  },
+  color2: {
+    color: 'color-success-500'
+  },
+  color3: {
+    color: 'color-danger-500'
+  },
   leftText: {
     flexDirection: 'row',
   },
@@ -81,16 +92,17 @@ const themedStyle = StyleService.create({
   count: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'color-primay-500'
   },
   countContainer: {
     width: '30%',
     height: 70,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'color-basic-200',
+    borderRadius: 5
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
   }
 });

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { Text, Tab, TabView, StyleService, useStyleSheet } from '@ui-kitten/components';
 import { connect } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import TopNavSimple from '../../components/navigation/topNavSimple';
 import LoadBookingHistory from '../../redux/thunkActions/loadBookingsHistory';
@@ -22,12 +22,11 @@ const NoBookings = (props) => {
 }
 
 const BookingssScreen = (props) => {
-
   const navigation = useNavigation();
   const styles = useStyleSheet(style);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const shouldLoadComponent = (index) => index === selectedIndex;
   const [data, setData] = React.useState({});
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   useEffect(() => {
     CheckUserData(props.userData);
@@ -36,21 +35,34 @@ const BookingssScreen = (props) => {
       setData(response);
     }
     loadDatas();
+    // checkRoute();
     navigation.addListener('focus', () => {
       reloadData();
     });
   }, []);
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+
+  //   }, [])
+  // );
+
+  const checkRoute = () => {
+    // console.log(props.route.params.index)
+    setSelectedIndex(props.route.params.index);
+  }
 
   const reloadData = async () => {
     CheckUserData(props.userData);
     setData([]);
     const response = await LoadBookingHistory(props.userData.access_token);
     setData(response);
+    // checkRoute();
   }
 
   return (
     <View style={styles.bodyContainer}>
-      <TopNavSimple screenTitle='Your Bookings' backHandler={() => navigation.goBack()} />
+      <TopNavSimple screenTitle='Your Bookings' />
       <TabView
         selectedIndex={selectedIndex}
         shouldLoadComponent={shouldLoadComponent}

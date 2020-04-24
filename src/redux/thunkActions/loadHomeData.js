@@ -15,6 +15,7 @@ const LoadHomeData = async (token) => {
       return response.data.data;
     })
     .catch(function (error) {
+      console.log(error)
       if (error.response.data.message === 'Please Login to Continue') {
         Logout();
       }

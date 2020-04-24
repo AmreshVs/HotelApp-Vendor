@@ -24,7 +24,7 @@ const Main = (props) => {
         <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
         <View style={styles.statusBar} />
         <TabNavigator/>
-        <SnackBar style={styles.snack} visible={props.visible} textMessage={props.message} backgroundColor={props.backgroundColor} actionText="Ok" />
+        <SnackBar containerStyle={styles.snack} visible={props.visible} textMessage={props.message} backgroundColor={props.backgroundColor} actionText="Ok" position="bottom" bottom={10} right={10} left={10} autoHidingTime={1900} />
       </NavigationContainer>
     </View>
   )
@@ -47,8 +47,6 @@ const themedStyle = StyleService.create({
     height: StatusBar.currentHeight,
   },
   snack: {
-    overflow: 'hidden',
     borderRadius: 5,
-    margin: 10,
   }
 });

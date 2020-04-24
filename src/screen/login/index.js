@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { View, Platform, KeyboardAvoidingView, Animated } from 'react-native';
+import { View, KeyboardAvoidingView, Animated } from 'react-native';
 import TimedSlideshow from 'react-native-timed-slideshow';
 import { Icon, Input, Button } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { AsyncStorage } from 'react-native';
 import OneSignal from 'react-native-onesignal';
+import  * as Animatable from 'react-native-animatable';
 
 import styles from './styles';
 import UserLoginAuth from '../../redux/thunkActions/userLoginAuth';
@@ -29,7 +30,7 @@ const LoginScreen = (props) => {
   ];
 
   const [value, setValue] = React.useState('amreshcse007@gmail.com');
-  const [otpValue, setOtpValue] = React.useState('admin123');
+  const [passValue, setPassValue] = React.useState('admin123');
   const [userId, setUserId] = React.useState('');
   const [visible, setVisible] = React.useState(false);
   const [slideAnim] = React.useState(new Animated.Value(0));
@@ -56,21 +57,27 @@ const LoginScreen = (props) => {
   const onIds = (data) => setUserId(data.userId);
 
   const slideComp = () => {
-    Animated.spring(slideAnim, {
-      toValue: -500,
-    }).start();
-    Animated.spring(slideAnimOtp, {
-      toValue: 0,
-    }).start();
-    setVisible(true);
+    if (validateData()) {
+      Animated.spring(slideAnim, {
+        toValue: 200,
+        useNativeDriver: true
+      }).start();
+      Animated.spring(slideAnimOtp, {
+        toValue: 0,
+        useNativeDriver: true
+      }).start();
+      setVisible(true);
+    }
   }
 
   const slideBack = () => {
     Animated.spring(slideAnim, {
       toValue: 0,
+      useNativeDriver: true
     }).start();
     Animated.spring(slideAnimOtp, {
       toValue: 500,
+      useNativeDriver: true
     }).start();
     setVisible(false);
   }
@@ -91,14 +98,44 @@ const LoginScreen = (props) => {
     <Icon {...style} name={secureTextEntry ? 'eye-off' : 'eye'} />
   );
 
-  const loginWithOtp = async () => {
-    const userData = await UserLoginAuth({ username: value, password: otpValue, oneSignalUserId: userId });
-    props.userLogin(userData.data);
-    const token = userData.data.access_token;
-    snackbarMessage(userData.message)
-    if (token !== undefined && token !== '') {
-      storeAsyncData(JSON.stringify(userData.data));
-      navigation.navigate('Home');
+  const loginWithPass = async () => {
+    if(passValue.length <= 0){
+      snackbarMessage('Enter Password');
+    }
+    else{
+      const userData = await UserLoginAuth({ username: value, password: passValue, oneSignalUserId: userId });
+      if(userData.data.message){
+        snackbarMessage(userData.data.message);
+      }
+      else{
+        props.userLogin(userData.data);
+        const token = userData.data.access_token;
+        snackbarMessage(userData.message)
+        if (token !== undefined && token !== '') {
+          storeAsyncData(JSON.stringify(userData.data));
+          navigation.navigate('Home');
+        }
+      }
+    }
+  }
+
+  const validateData = () => {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (value.length <= 0) {
+      snackbarMessage('Enter a Email Address');
+      return false;
+    }
+
+    if(value.match(mailformat))
+    {
+      return true;
+    }
+    else
+    {
+      snackbarMessage('Invalid email address!');
+      document.form1.text1.focus();
+      return false;
     }
   }
 
@@ -106,8 +143,8 @@ const LoginScreen = (props) => {
     <View style={styles.statusBarTop} behavior="padding" enabled>
       <TimedSlideshow
         items={items}
-        progressBarColor='#3366FF'
-        progressBarDirection='fromLeft'
+        footerStyle={{ backgroundColor: 'transparent' }}
+        showProgressBar={false}
         renderIcon={() => null}
         renderCloseIcon={() => null}
       />
@@ -115,47 +152,47 @@ const LoginScreen = (props) => {
         style={[styles.inputContainer, {
           visibility: visible === true ? '' : 'hidden',
           transform: [{
-            translateX: slideAnim
+            translateY: slideAnim
           }]
         }]}
       >
         <KeyboardAvoidingView behavior="padding" enabled>
-          <Input
-            value={value}
-            keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"}
-            style={styles.input}
-            size='small'
-            placeholder='Enter Username'
-            icon={renderIcon}
-            onChangeText={setValue}
-          />
-          <Button style={styles.btnInput} appearance='filled' onPress={slideComp}>Continue</Button>
+          <Animatable.View style={styles.inputs} animation="bounceInLeft" direction="normal" duration={800} useNativeDriver={true}>
+            <Input
+              value={value}
+              style={styles.input}
+              size='small'
+              placeholder='Enter Email'
+              icon={renderIcon}
+              onChangeText={setValue}
+            />
+            <Button style={styles.btnInput} appearance='filled' onPress={slideComp}>Continue</Button>
+          </Animatable.View>
         </KeyboardAvoidingView>
       </Animated.View>
       <Animated.View
         style={[styles.inputContainer, {
           transform: [
             {
-              translateX: slideAnimOtp
+              translateY: slideAnimOtp
             }
           ]
         }]}
       >
         <KeyboardAvoidingView style={styles.inputOtpContainer} behavior="padding" enabled>
           <Input
-            keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"}
-            value={otpValue}
+            value={passValue}
             size='small'
             style={styles.input}
             placeholder='********'
             icon={renderPassIcon}
             secureTextEntry={secureTextEntry}
             onIconPress={onIconPress}
-            onChangeText={setOtpValue}
+            onChangeText={setPassValue}
           />
           <View style={styles.btnContainer}>
             <Button style={styles.backInput} appearance='filled' status='info' onPress={slideBack}>Back</Button>
-            <Button style={styles.backInput} appearance='filled' onPress={loginWithOtp}>Submit</Button>
+            <Button style={styles.backInput} appearance='filled' onPress={loginWithPass}>Submit</Button>
           </View>
         </KeyboardAvoidingView>
       </Animated.View>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { View } from 'react-native';
 import { Input, Icon, Card, Button, StyleService, useStyleSheet } from '@ui-kitten/components';
 
 import SaveProfileData from '../../redux/thunkActions/saveProfileData';
 import snackbarMessage from '../../redux/thunkActions/snackbarMessage';
+import { userLogin } from '../../redux/actions/commonActions';
 
 const ProfileEdit = (props) => {
 
@@ -16,11 +18,33 @@ const ProfileEdit = (props) => {
   const [city, setCity] = React.useState(props.data.city);
 
   const handleSave = async () => {
-    const response = await SaveProfileData(props.access_token, { firstname: firstname, lastname: lastname, email: email, address: address, city: city });
-    snackbarMessage(response.message);
-    props.handleClick();
-    props.reloadData();
+    if (validate()) {
+      const response = await SaveProfileData(props.access_token, { firstname: firstname, lastname: lastname, email: email, address: address, city: city });
+      snackbarMessage(response.message);
+      props.userLogin({ access_token: props.access_token, firstname: firstname, lastname: lastname, email: email, address: address, city: city })
+      props.handleClick();
+      props.reloadData();
+    }
   }
+
+  const validate = () => {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (email.match(mailformat)) {
+      return true;
+    }
+    else {
+      snackbarMessage("You have entered an invalid email address!");
+      return false;
+    }
+  }
+
+  const SaveIcon = () => (
+    <Icon style={styles.saveIconStyle} fill={styles.saveIconStyle.fill} animation={'zoom'} name='save-outline' />
+  );
+
+  const CancelIcon = () => (
+    <Icon style={styles.cancelIconStyle} fill={styles.cancelIconStyle.fill} animation={'zoom'} name='close-circle-outline' />
+  );
 
   return (
     <View style={styles.bodyContainer}>
@@ -41,7 +65,7 @@ const ProfileEdit = (props) => {
           </View>
           <View style={styles.inputContainer}>
             <View style={styles.iconContainer}>
-              <Icon name='person-outline' style={styles.icons} fill={styles.iconColor.color} />
+              <Icon name='person-add-outline' style={styles.icons} fill={styles.iconColor.color} />
             </View>
             <View style={styles.nameContainer}>
               <Input
@@ -93,8 +117,8 @@ const ProfileEdit = (props) => {
           </View>
         </View>
         <View style={styles.btnContainer}>
-          <Button style={styles.logoutButton} status='danger' size='small' appearance='outline' onPress={props.handleClick}>Cancel</Button>
-          <Button style={styles.logoutButton} appearance='outline' size='small' onPress={handleSave}>Save</Button>
+          <Button style={styles.logoutButton} status='danger' size='small' appearance='outline' onPress={props.handleClick} icon={CancelIcon} >Cancel</Button>
+          <Button style={styles.logoutButton} appearance='outline' size='small' onPress={handleSave} icon={SaveIcon}>Save</Button>
         </View>
       </Card>
     </View>
@@ -105,7 +129,11 @@ const mapStateToProps = (state) => {
   return state.common.userData;
 }
 
-export default connect(mapStateToProps)(ProfileEdit);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ userLogin: userLogin }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);
 
 const themedStyle = StyleService.create({
   bodyContainer: {

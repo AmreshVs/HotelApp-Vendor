@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
   statusBarTop: {
@@ -7,31 +8,34 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     position: 'absolute',
-    width: '100%',
-    bottom: 3,
+    width: wp('100%'),
+    bottom: hp('2%'),
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
   inputOtpContainer: {
     width: '100%',
-    bottom: 10,
+    bottom: hp('2%'),
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
   btnContainer: {
-    width: '85%',
+    width: wp('85%'),
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
   input: {
-    width: '85%',
-    marginBottom: 10,
+    width: wp('85%'),
+    marginBottom: hp('1%'),
   },
   btnInput: {
     marginBottom: 10,
   },
   backInput: {
     width: '48%',
+  },
+  inputs:{
+    width: '100%',
   }
 });
 

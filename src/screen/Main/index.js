@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFF'
   },
   img: {
     width: 100,

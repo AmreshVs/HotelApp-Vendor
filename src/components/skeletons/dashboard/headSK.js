@@ -33,7 +33,7 @@ export default HeadSK;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: 330,
+    width: '80%',
     height: 160,
     marginTop: -85,
     margin: '10%',

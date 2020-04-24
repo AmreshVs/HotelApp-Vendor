@@ -1,13 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text, StyleService, useStyleSheet } from '@ui-kitten/components';
+import * as Animatable from 'react-native-animatable';
 
 const HeadCount = (props) => {
 
   const styles = useStyleSheet(themedStyle);
 
   return (
-    <View style={styles.searchCard}>
+    <Animatable.View style={styles.searchCard} animation="fadeInDown" direction="normal" duration={500} useNativeDriver={true} >
       <View style={styles.row}>
         <View style={styles.countContainer}>
           <Text style={styles.count}>₹{props.bookingCount !== undefined ? props.bookingCount.total_revenue : 0}</Text>
@@ -28,7 +29,7 @@ const HeadCount = (props) => {
           <Text style={styles.caption}>Today Bookings</Text>
         </View>
       </View>
-    </View>
+    </Animatable.View>
   );
 }
 

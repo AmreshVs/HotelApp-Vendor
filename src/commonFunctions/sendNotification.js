@@ -21,10 +21,10 @@ const SendNotification = (heading, content, buttons = [], data = {}, player_id =
     data: message,
   })
   .then(function (response) {
-    console.log(response.data);
+    // console.log(response.data);
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    // console.log(error.response.data);
   });
 }
 

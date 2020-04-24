@@ -10,7 +10,7 @@ const BottomNav = ({ navigation, state }) => {
   };
 
   const HomeIcon = style => <Icon {...style} name="home-outline" />;
-  const HeartIcon = style => <Icon {...style} name="heart-outline" />;
+  const HeartIcon = style => <Icon {...style} name="person-done-outline" />;
   const BookingIcon = style => <Icon {...style} name="briefcase-outline" />;
   const ProfileIcon = style => <Icon {...style} name="person-outline" />;
   const NotificationIcon = style => <Icon {...style} name="bell-outline" />;

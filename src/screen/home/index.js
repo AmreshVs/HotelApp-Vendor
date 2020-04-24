@@ -41,8 +41,8 @@ const HomeScreen = (props) => {
     <ScrollView style={styles.statusBarTop} showsVerticalScrollIndicator={false}>
       <DashboardHead/>
       {data.length <= 0 ? <HeadSK/> : <HeadCounts bookingCount={data.amount_based} />}
-      {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Bookings" bookingCount={data.booking_count} />}
       {data.length <= 0 ? <BookingsCount/> : <InventoryCounts name="Inventory" bookingCount={data.Inventory} />}
+      {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Bookings" bookingCount={data.booking_count} />}
       {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Agent Bookings" bookingCount={data.agent_booking_count} />}
     </ScrollView>
   );

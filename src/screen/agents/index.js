@@ -13,7 +13,6 @@ import AgentsList from '../../components/agents/agentsList';
 const NoBookings = (props) => {
 
   const styles = useStyleSheet(themedStyle);
-  const navigation = useNavigation();
 
   return (
     <View style={styles.noDataContainer}>
@@ -25,6 +24,7 @@ const NoBookings = (props) => {
 const AgentsScreen = (props) => {
 
   const styles = useStyleSheet(themedStyle);
+  const navigation = useNavigation();
   const [data, setData] = React.useState({});
 
   useEffect(() => {
@@ -46,11 +46,8 @@ const AgentsScreen = (props) => {
 
   return (
     <View style={styles.bodyContainer}>
-      <NavigationEvents
-        onWillFocus={reloadData}
-      />
-      <TopNavSimple screenTitle='Agents List' backHandler={() => navigation.goBack()} />
-      {data[0] === undefined ? <BookingsOverviewSK /> : (data.length > 0 ? data.map((item) => (<AgentsList key={item.firstname} firstname={item.firstname} numBookings={item.no_of_booking} blocked={item.blocked} completed={item.completed} cancelled={item.cancelled} />)) : <NoBookings txt='made' />)}
+      <TopNavSimple screenTitle='Agents List' />
+      {data[0] === undefined ? <BookingsOverviewSK /> : (data.length > 0 ? data.map((item, index) => (<AgentsList key={item.firstname} delay={index} firstname={item.firstname} numBookings={item.no_of_booking} blocked={item.blocked} completed={item.completed} cancelled={item.cancelled} />)) : <NoBookings txt='made' />)}
     </View>
   );
 }
@@ -63,7 +60,6 @@ export default connect(mapStateToProps)(AgentsScreen);
 
 const themedStyle = StyleService.create({
   bodyContainer: {
-    backgroundColor: 'background-basic-color-1',
     height: '100%',
   },
   noDataContainer: {

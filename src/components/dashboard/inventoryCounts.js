@@ -1,29 +1,41 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { Text, StyleService, useStyleSheet, Icon } from '@ui-kitten/components';
+import * as Animatable from 'react-native-animatable';
 
 const InventoryCounts = (props) => {
 
   const styles = useStyleSheet(themedStyle);
+
+  const renderIcon = (name, color) => <Icon name={name} width={37} height={37} fill={color}/>
 
   return (
     <View>
       <Text style={styles.heading}>{props.name}</Text>
       <View style={styles.container}>
         <View style={styles.row}>
-          <View style={styles.countsContainer}>
+          <Animatable.View style={styles.countsContainer} animation="fadeInLeft" direction="normal" duration={500} useNativeDriver={true} >
+            <View style={styles.iconContainer}>
+              {renderIcon('clipboard-outline', styles.icon.color3)}
+            </View>
             <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.Available : 0}</Text>
             <Text style={styles.caption}>Available</Text>
-          </View>
-          <View style={styles.countsContainer}>
+          </Animatable.View>
+          <Animatable.View style={styles.countsContainer} animation="fadeInRight" direction="normal" duration={500} useNativeDriver={true} >
+            <View style={styles.iconContainer}>
+              {renderIcon('checkmark-square-outline', styles.icon.color5)}
+            </View>
             <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.Sold : 0}</Text>
             <Text style={styles.caption}>Sold</Text>
-          </View>
+          </Animatable.View>
         </View>
-        <View style={styles.countsContainer}>
+        <Animatable.View style={styles.countsContainer} animation="fadeInUp" direction="normal" duration={500} useNativeDriver={true} >
+          <View style={styles.iconContainer}>
+            {renderIcon('close-square-outline', styles.icon.color4)}
+          </View>
           <Text style={styles.count}>{props.bookingCount !== undefined ? props.bookingCount.Blocked : 0}</Text>
           <Text style={styles.caption}>Blocked</Text>
-        </View>
+        </Animatable.View>
       </View>
     </View>
   );
@@ -39,8 +51,9 @@ const themedStyle = StyleService.create({
   },
   countsContainer: {
     width: '40%',
-    height: 100,
+    // height: 100,
     margin: 10,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -72,5 +85,18 @@ const themedStyle = StyleService.create({
     fontWeight: 'bold',
     fontSize: 17,
     color: 'color-basic-700'
+  },
+  iconContainer:{
+    backgroundColor: 'color-basic-200',
+    margin: 10,
+    padding: 15,
+    borderRadius: 30,
+  },
+  icon:{
+    color1: 'color-primary-500',
+    color2: 'color-success-500',
+    color3: 'color-info-500',
+    color4: 'color-danger-500',
+    color5: 'color-warning-500',
   }
 });

@@ -20,7 +20,7 @@ const App = () => {
     // OneSignal.addEventListener('ids', onIds);
   }, [])
   // const onIds = (data) => {console.log(data);}
-
+  console.disableYellowBox = true;
   return (
     <React.Fragment>
       <Provider store={store}>
