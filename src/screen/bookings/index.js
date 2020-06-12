@@ -6,9 +6,8 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import TopNavSimple from '../../components/navigation/topNavSimple';
 import LoadBookingHistory from '../../redux/thunkActions/loadBookingsHistory';
-import CheckUserData from '../../commonFunctions/checkUserData';
 import BookingsOverview from '../../components/bookings/index';
-import BookingsOverviewSK from '../../components/skeletons/bookingsOverviewSK';
+import Loader from '../../components/loader';
 
 const NoBookings = (props) => {
 
@@ -27,12 +26,14 @@ const BookingssScreen = (props) => {
   const shouldLoadComponent = (index) => index === selectedIndex;
   const [data, setData] = React.useState({});
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
+  const [refresh, setRefresh] = React.useState(false);
 
   useEffect(() => {
-    CheckUserData(props.userData);
     async function loadDatas() {
       const response = await LoadBookingHistory(props.userData.access_token);
       setData(response);
+      setLoading(false);
     }
     loadDatas();
     // checkRoute();
@@ -41,22 +42,16 @@ const BookingssScreen = (props) => {
     });
   }, []);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-
-  //   }, [])
-  // );
-
   const checkRoute = () => {
     // console.log(props.route.params.index)
     setSelectedIndex(props.route.params.index);
   }
 
   const reloadData = async () => {
-    CheckUserData(props.userData);
-    setData([]);
+    setRefresh(true);
     const response = await LoadBookingHistory(props.userData.access_token);
     setData(response);
+    setRefresh(false);
     // checkRoute();
   }
 
@@ -68,13 +63,13 @@ const BookingssScreen = (props) => {
         shouldLoadComponent={shouldLoadComponent}
         onSelect={setSelectedIndex}>
         <Tab style={styles.tabs} title='Upcoming'>
-          {data.upcoming === undefined ? <BookingsOverviewSK /> : (data.upcoming.length > 0 ? <BookingsOverview data={data.upcoming} /> : <NoBookings txt='made' />)}
+          {loading === true ? <Loader topBottom={true} /> : (data.upcoming.length > 0 ? <BookingsOverview data={data.upcoming} refresh={refresh} reloadData={reloadData} /> : <NoBookings txt='made' />)}
         </Tab>
         <Tab style={styles.tabs} title='Completed'>
-          {data.complete === undefined ? <BookingsOverviewSK /> : (data.complete.length > 0 ? <BookingsOverview data={data.complete} /> : <NoBookings txt='completed' />)}
+          {loading === true ? <Loader topBottom={true} /> : (data.complete.length > 0 ? <BookingsOverview data={data.complete} refresh={refresh} reloadData={reloadData} /> : <NoBookings txt='completed' />)}
         </Tab>
         <Tab style={styles.tabs} title='Cancelled'>
-          {data.cancelled === undefined ? <BookingsOverviewSK /> : (data.cancelled.length > 0 ? <BookingsOverview data={data.cancelled} /> : <NoBookings txt='cancelled' />)}
+          {loading === true ? <Loader topBottom={true} /> : (data.cancelled.length > 0 ? <BookingsOverview data={data.cancelled} refresh={refresh} reloadData={reloadData} /> : <NoBookings txt='cancelled' />)}
         </Tab>
       </TabView>
     </View>

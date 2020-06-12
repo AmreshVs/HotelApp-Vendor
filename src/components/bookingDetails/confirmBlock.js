@@ -13,13 +13,16 @@ const ConfirmBlock = (props) => {
   if (props.status === 2) {
     bgClr = '#DB2C36';
   }
+  if(props.status === 5){
+    bgClr = '#AAA';
+  }
 
   return (
     <Animatable.View animation="fadeInRight" direction="normal" duration={500} useNativeDriver={true}>
       <Card style={[styles.container, { backgroundColor: bgClr }]}>
         <View style={styles.bookingContainer}>
           <Icon name='checkmark-circle-outline' style={styles.checkIcon} fill={styles.iconColor.color} />
-          <Text style={styles.confirmed}>Your Booking is {props.status_label}!</Text>
+          <Text style={styles.confirmed}>Booking is {props.status === 5 ? 'Blocked' : props.status_label}!</Text>
           <Text style={styles.bookingCaption}>Your booking ID is #{props.booking_id}.</Text>
           {props.transaction_id === '' || props.transaction_id === '-' ? <Text style={styles.caption}>The amount of ₹{props.total} can be payed upon your arrival. This booking can be cancelled anytime here.</Text> : <Text style={styles.caption}> Your payment is successfull and Transaction ID is {props.transaction_id}. Now Check In to your rooms hassle free.</Text>}
         </View>

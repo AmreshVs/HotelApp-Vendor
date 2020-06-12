@@ -3,6 +3,7 @@ import { View, AsyncStorage } from 'react-native';
 import { Button, Card, Icon, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const ProfileView = (props) => {
 
@@ -94,7 +95,6 @@ export default ProfileView;
 
 const style = StyleService.create({
   bodyContainer: {
-    backgroundColor: 'background-basic-color-1',
     height: '100%',
     alignItems: 'center',
   },
@@ -124,7 +124,7 @@ const style = StyleService.create({
     paddingLeft: 10,
   },
   inputText: {
-    fontSize: 16,
+    fontSize: hp('2.3%'),
     color: 'color-basic-700',
   },
   btnContainer: {

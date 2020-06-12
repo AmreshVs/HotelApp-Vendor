@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { View } from 'react-native';
 import { Input, Icon, Card, Button, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import SaveProfileData from '../../redux/thunkActions/saveProfileData';
 import snackbarMessage from '../../redux/thunkActions/snackbarMessage';
@@ -137,7 +138,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);
 
 const themedStyle = StyleService.create({
   bodyContainer: {
-    backgroundColor: 'background-basic-color-1',
     height: '100%',
     alignItems: 'center',
   },
@@ -167,7 +167,7 @@ const themedStyle = StyleService.create({
     paddingLeft: 10,
   },
   inputText: {
-    fontSize: 16,
+    fontSize: hp('2.3%'),
     color: 'color-basic-700',
   },
   btnContainer: {

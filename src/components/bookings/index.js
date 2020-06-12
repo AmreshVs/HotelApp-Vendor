@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Image, ScrollView } from 'react-native';
+import { View, Image, ScrollView, RefreshControl } from 'react-native';
 import { Text, Icon, StyleService, useStyleSheet } from '@ui-kitten/components';
 import Ripple from 'react-native-material-ripple';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BookingsOverview = (props) => {
 
@@ -17,7 +18,14 @@ const BookingsOverview = (props) => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={props.refresh}
+          onRefresh={props.reloadData}
+        />
+      }
+    >
       {props.data.map((item, index) =>
         <Animatable.View animation="fadeInRight" direction="normal" duration={500} useNativeDriver={true} delay={index * 50}>
           <View style={styles.container} key={item.booking_id}>
@@ -65,12 +73,10 @@ export default BookingsOverview;
 
 const themedStyle = StyleService.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingTop: 10,
   },
   cardContainer: {
-    width: '90%',
+    width: '100%',
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
@@ -84,17 +90,19 @@ const themedStyle = StyleService.create({
   },
   row: {
     flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   content: {
-    width: '72%',
     paddingLeft: 10,
   },
   hotelName: {
     fontWeight: '700',
     color: 'color-basic-700',
+    fontSize: hp('2.3%')
   },
   caption: {
-    color: 'color-basic-600'
+    color: 'color-basic-600',
+    fontSize: hp('2.2%')
   },
   info: {
     marginTop: 20,
@@ -107,6 +115,7 @@ const themedStyle = StyleService.create({
   address: {
     width: '50%',
     color: 'color-basic-600',
+    fontSize: hp('2.2%')
   },
   starIcon: {
     width: 25,
@@ -116,7 +125,7 @@ const themedStyle = StyleService.create({
     flexDirection: 'row',
   },
   iconContainer: {
-    right: 20,
+    right: 10,
   },
   datesContainer: {
     marginTop: 5,
@@ -131,7 +140,12 @@ const themedStyle = StyleService.create({
     paddingLeft: 15,
   },
   scroll: {
-    backgroundColor: 'background-basic-color-2',
+    backgroundColor: 'transparent',
     paddingBottom: 170,
+    width: '100%',
+    paddingHorizontal: 10
+  },
+  text:{
+    fontSize: hp('2.2%')
   }
 })

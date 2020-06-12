@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TopNavigationAction, Icon, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import Ripple from 'react-native-material-ripple';
@@ -14,20 +14,28 @@ import ReadNotification from '../../commonFunctions/readNotifications';
 import UpdateBookingStatus from '../../commonFunctions/update-booking-status';
 import SendNotification from '../../commonFunctions/sendNotification';
 import SaveNotification from '../../commonFunctions/saveNotification';
+import Loader from '../../components/loader';
 
 const NotificationsScreen = (props) => {
 
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
   const [data, setData] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       const response = await ViewNotifications(props.access_token);
       setData(response.length > 0 ? response : -1);
+      setLoading(false);
     }
     loadData();
     OneSignal.addEventListener('opened', notificationOpen);
+
+    return () => {
+      OneSignal.removeEventListener('opened');
+    }
   }, [])
 
   const notificationOpen = (data) => {
@@ -67,9 +75,10 @@ const NotificationsScreen = (props) => {
   }
 
   const reloadData = async () => {
-    setData([]);
+    setRefresh(true);
     const response = await ViewNotifications(props.access_token);
     setData(response.length > 0 ? response : -1);
+    setRefresh(false);
   }
 
   const RefreshIcon = () => <Icon name='refresh-outline' fill='#FFF' />;
@@ -91,9 +100,20 @@ const NotificationsScreen = (props) => {
   return (
     <View style={styles.backContainer}>
       <TopNavSimple screenTitle='Notifications' rightControl={true} rightControlFun={RefreshAction} />
-      <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false}>
-        {data === -1 ? <NoData /> : data.length === 0 ? <NotificationsSK /> : <Notifications data={data} token={props.access_token} reload={reloadData} approve={approve} cancel={cancel} />}
-      </ScrollView>
+      {loading === true ?
+        <Loader topBottom={true} />
+        :
+        <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refresh}
+              onRefresh={reloadData}
+            />
+          }
+        >
+          {data === -1 ? <NoData /> : data.length === 0 ? <NotificationsSK /> : <Notifications data={data} token={props.access_token} reload={reloadData} approve={approve} cancel={cancel} />}
+        </ScrollView>
+      }
     </View>
   )
 }

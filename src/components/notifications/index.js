@@ -4,6 +4,7 @@ import { Text, Icon, Button, StyleService, useStyleSheet } from '@ui-kitten/comp
 import Ripple from 'react-native-material-ripple';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import ReadNotification from '../../commonFunctions/readNotifications';
 
@@ -43,8 +44,8 @@ const Notifications = (props) => {
               </View>
             </View>
             <View style={styles.rightContainer}>
-              <Text category='h6'>{item.heading}</Text>
-              <Text category='p1'>{item.content}</Text>
+              <Text style={styles.heading} category='h6'>{item.heading}</Text>
+              <Text style={styles.caption} category='p1'>{item.content}</Text>
               <Text style={styles.datetime} category='c1'>{item.created_dt}</Text>
             </View>
           </Ripple>
@@ -89,7 +90,8 @@ const themedStyles = StyleService.create({
     width: '80%'
   },
   datetime: {
-    textAlign: 'right'
+    textAlign: 'right',
+    fontSize: hp(2)
   },
   iconContainer: {
     borderRadius: 50,
@@ -118,5 +120,11 @@ const themedStyles = StyleService.create({
   },
   button: {
     width: '45%'
+  },
+  heading: {
+    fontSize: hp('2.5%')
+  },
+  caption:{
+    fontSize: hp(2.2)
   }
 })

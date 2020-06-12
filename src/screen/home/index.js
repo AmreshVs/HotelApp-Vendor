@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
 import { useStyleSheet } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,20 +10,21 @@ import DashboardHead from '../../components/dashboard/head';
 import HeadCounts from '../../components/dashboard/headCounts';
 import BodyCounts from '../../components/dashboard/bodyCounts';
 import InventoryCounts from '../../components/dashboard/inventoryCounts';
-
-import HeadSK from '../../components/skeletons/dashboard/headSK';
-import BookingsCount from '../../components/skeletons/dashboard/bookingsSK';
+import Loader from '../../components/loader';
 
 const HomeScreen = (props) => {
 
   const styles = useStyleSheet(themedStyle);
   const navigation = useNavigation();
   const [data, setData] = React.useState([]);
+  const [refresh, setRefresh] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     async function loadDatas(){
       const response = await LoadHomeData(props.access_token);
       setData(response);
+      setLoading(false);
     }
     loadDatas();
     navigation.addListener('focus', () => {
@@ -32,18 +33,29 @@ const HomeScreen = (props) => {
   }, [])
 
   const reloadData = async () => {
-    setData([]);
+    setRefresh(true);
     const rdata = await LoadHomeData(props.access_token);
     setData(rdata);
+    setRefresh(false);
   }
 
   return (
-    <ScrollView style={styles.statusBarTop} showsVerticalScrollIndicator={false}>
+    loading === true ? 
+    <Loader />
+    :
+    <ScrollView style={styles.statusBarTop} showsVerticalScrollIndicator={false}
+      RefreshControl={
+        <RefreshControl 
+          refreshing={refresh}
+          onRefresh={reloadData}
+        />
+      }
+    >
       <DashboardHead/>
-      {data.length <= 0 ? <HeadSK/> : <HeadCounts bookingCount={data.amount_based} />}
-      {data.length <= 0 ? <BookingsCount/> : <InventoryCounts name="Inventory" bookingCount={data.Inventory} />}
-      {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Bookings" bookingCount={data.booking_count} />}
-      {data.length <= 0 ? <BookingsCount/> : <BodyCounts name="Agent Bookings" bookingCount={data.agent_booking_count} />}
+      <HeadCounts bookingCount={data.amount_based} />
+      <InventoryCounts name="Inventory" bookingCount={data.Inventory} />
+      <BodyCounts name="Bookings" bookingCount={data.booking_count} />
+      <BodyCounts name="Agent Bookings" bookingCount={data.agent_booking_count} />
     </ScrollView>
   );
 };

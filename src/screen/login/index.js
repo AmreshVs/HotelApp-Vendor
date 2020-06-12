@@ -134,7 +134,6 @@ const LoginScreen = (props) => {
     else
     {
       snackbarMessage('Invalid email address!');
-      document.form1.text1.focus();
       return false;
     }
   }

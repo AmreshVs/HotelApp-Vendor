@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Icon, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import * as Animatable from 'react-native-animatable';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const AgentsList = (props) => {
 
@@ -61,7 +62,7 @@ const themedStyle = StyleService.create({
   },
   heading: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: hp(2.3),
     color: 'color-basic-700',
     paddingTop: 5,
     paddingLeft: 5,
@@ -90,7 +91,7 @@ const themedStyle = StyleService.create({
     justifyContent: 'space-between',
   },
   count: {
-    fontSize: 20,
+    fontSize: hp(3),
     fontWeight: 'bold',
   },
   countContainer: {
