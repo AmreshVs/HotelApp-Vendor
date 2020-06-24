@@ -18,7 +18,7 @@ const BodyCounts = (props) => {
       <View style={styles.container}>
         <View style={styles.row}>
           <Animatable.View style={styles.countsContainer}  animation="fadeInLeft" direction="normal" duration={500} useNativeDriver={true} >
-            <Ripple style={styles.countcontainer} onPress={() => navigation.navigate('BookingsScreen', { index: 0 })}>
+            <Ripple style={styles.countcontainer} onPress={() => navigation.navigate('DashBookingScreen', props.type === 'agent' ? { type: 'all', index: 0 } : { index: 0 })}>
               <View style={styles.iconContainer}>
                 {renderIcon('calendar-outline', styles.icon.color2)}
               </View>
@@ -27,7 +27,7 @@ const BodyCounts = (props) => {
             </Ripple>
           </Animatable.View>
           <Animatable.View style={styles.countsContainer}  animation="fadeInRight" direction="normal" duration={500} useNativeDriver={true} >
-            <Ripple style={styles.countcontainer} onPress={() => navigation.navigate('BookingsScreen', { index: 1 })}>
+            <Ripple style={styles.countcontainer} onPress={() => navigation.navigate('DashBookingScreen', props.type === 'agent' ? { type: 'all', index: 1 } : { index: 1 })}>
               <View style={styles.iconContainer}>
                 {renderIcon('checkmark-circle-outline', styles.icon.color3)}
               </View>
@@ -37,7 +37,7 @@ const BodyCounts = (props) => {
           </Animatable.View>
         </View>
         <Animatable.View style={styles.countsContainer}  animation="fadeInUp" direction="normal" duration={500} useNativeDriver={true} >
-          <Ripple style={styles.countContainer1} onPress={() => navigation.navigate('BookingsScreen', { index: 2 })}>
+          <Ripple style={styles.countContainer1} onPress={() => navigation.navigate('DashBookingScreen', props.type === 'agent' ? { type: 'all', index: 2 } : { index: 2 })}>
             <View style={styles.iconContainer}>
               {renderIcon('close-circle-outline', styles.icon.color4)}
             </View>

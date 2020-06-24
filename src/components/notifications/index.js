@@ -4,7 +4,7 @@ import { Text, Icon, Button, StyleService, useStyleSheet } from '@ui-kitten/comp
 import Ripple from 'react-native-material-ripple';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 import ReadNotification from '../../commonFunctions/readNotifications';
 
@@ -91,7 +91,7 @@ const themedStyles = StyleService.create({
   },
   datetime: {
     textAlign: 'right',
-    fontSize: hp(2)
+    fontSize: RFPercentage(1.8)
   },
   iconContainer: {
     borderRadius: 50,
@@ -122,9 +122,9 @@ const themedStyles = StyleService.create({
     width: '45%'
   },
   heading: {
-    fontSize: hp('2.5%')
+    fontSize: RFPercentage(2)
   },
   caption:{
-    fontSize: hp(2.2)
+    fontSize: RFPercentage(1.8)
   }
 })

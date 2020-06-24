@@ -2,10 +2,10 @@ import { API_URL } from '../../constants';
 import axios from 'axios';
 import Logout from '../../commonFunctions/logout';
 
-const LoadHomeData = async (token) => {
+const LoadAgentBookingsHistory = async (token, user_id = '') => {
   return await axios({
     method: 'GET',
-    url: API_URL + '/get-vendor-dashboard',
+    url: user_id === '' ? API_URL + '/get-agent-order-list' : API_URL + '/get-agent-order-list?user_id=' + user_id,
     headers: {
       'Accept-Language': 'en',
       'Authorization': token
@@ -22,4 +22,4 @@ const LoadHomeData = async (token) => {
     });
 }
 
-export default LoadHomeData;
+export default LoadAgentBookingsHistory;

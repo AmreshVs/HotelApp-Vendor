@@ -54,8 +54,8 @@ const HomeScreen = (props) => {
       <DashboardHead/>
       <HeadCounts bookingCount={data.amount_based} />
       <InventoryCounts name="Inventory" bookingCount={data.Inventory} />
-      <BodyCounts name="Bookings" bookingCount={data.booking_count} />
-      <BodyCounts name="Agent Bookings" bookingCount={data.agent_booking_count} />
+      <BodyCounts name="Bookings" type="" bookingCount={data.booking_count} />
+      <BodyCounts name="Agent Bookings" type="agent" bookingCount={data.agent_booking_count} />
     </ScrollView>
   );
 };

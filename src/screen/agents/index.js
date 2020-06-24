@@ -61,7 +61,7 @@ const AgentsScreen = (props) => {
             onRefresh={reloadData}
           />
         }>
-          {(data.length > 0 ? data.map((item, index) => (<AgentsList key={item.firstname} delay={index} firstname={item.firstname} numBookings={item.no_of_booking} blocked={item.blocked} completed={item.completed} cancelled={item.cancelled} />)) : <NoBookings txt='made' />)}
+          {(data.length > 0 ? data.map((item, index) => (<AgentsList key={item.firstname} delay={index} user_id={item.user_id} firstname={item.firstname} numBookings={item.no_of_booking} blocked={item.blocked} completed={item.completed} cancelled={item.cancelled} />)) : <NoBookings txt='made' />)}
         </ScrollView>
       }
     </View>

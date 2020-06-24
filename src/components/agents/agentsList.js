@@ -2,40 +2,45 @@ import React from 'react';
 import { View } from 'react-native';
 import { Icon, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import * as Animatable from 'react-native-animatable';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { RFPercentage } from "react-native-responsive-fontsize";
+import Ripple from 'react-native-material-ripple';
+import { useNavigation } from '@react-navigation/native';
 
 const AgentsList = (props) => {
 
   const styles = useStyleSheet(themedStyle);
+  const navigation = useNavigation();
 
   return (
-    <Animatable.View style={styles.container}  animation="bounceInLeft" direction="normal" duration={800} useNativeDriver={true} delay={props.delay * 20}>
-      <View style={styles.nameContainer}>
-        <View style={styles.leftText}>
-          <Icon width={32} height={32} name="person-done-outline" fill='#3366FF' />
-          <Text style={styles.heading}>{props.firstname}</Text>
-        </View>
-        <View style={styles.rightText}>
-          <Text style={styles.heading}>Bookings : </Text>
-          <Text style={styles.heading}>{props.numBookings}</Text>
-        </View>
-      </View>
-      <View>
-        <View style={styles.row}>
-          <View style={styles.countContainer}>
-            <Text style={[styles.count, styles.color1]}>{props.blocked}</Text>
-            <Text style={styles.caption}>Blocked</Text>
+    <Animatable.View style={styles.container} animation="bounceInLeft" direction="normal" duration={800} useNativeDriver={true} delay={props.delay * 20}>
+      <Ripple onPress={() => navigation.navigate('DashBookingScreen', { user_id: props.user_id, type: 'specific' })}>
+        <View style={styles.nameContainer}>
+          <View style={styles.leftText}>
+            <Icon width={32} height={32} name="person-done-outline" fill='#3366FF' />
+            <Text style={styles.heading}>{props.firstname}</Text>
           </View>
-          <View style={styles.countContainer}>
-            <Text style={[styles.count, styles.color2]}>{props.completed}</Text>
-            <Text style={styles.caption}>Completed</Text>
-          </View>
-          <View style={styles.countContainer}>
-            <Text style={[styles.count, styles.color3]}>{props.cancelled}</Text>
-            <Text style={styles.caption}>Cancelled</Text>
+          <View style={styles.rightText}>
+            <Text style={styles.heading}>Bookings : </Text>
+            <Text style={styles.heading}>{props.numBookings}</Text>
           </View>
         </View>
-      </View>
+        <View>
+          <View style={styles.row}>
+            <View style={styles.countContainer}>
+              <Text style={[styles.count, styles.color1]}>{props.blocked}</Text>
+              <Text style={styles.caption}>Blocked</Text>
+            </View>
+            <View style={styles.countContainer}>
+              <Text style={[styles.count, styles.color2]}>{props.completed}</Text>
+              <Text style={styles.caption}>Completed</Text>
+            </View>
+            <View style={styles.countContainer}>
+              <Text style={[styles.count, styles.color3]}>{props.cancelled}</Text>
+              <Text style={styles.caption}>Cancelled</Text>
+            </View>
+          </View>
+        </View>
+      </Ripple>
     </Animatable.View>
   )
 }
@@ -62,7 +67,7 @@ const themedStyle = StyleService.create({
   },
   heading: {
     fontWeight: 'bold',
-    fontSize: hp(2.3),
+    fontSize: RFPercentage(1.8),
     color: 'color-basic-700',
     paddingTop: 5,
     paddingLeft: 5,
@@ -91,7 +96,7 @@ const themedStyle = StyleService.create({
     justifyContent: 'space-between',
   },
   count: {
-    fontSize: hp(3),
+    fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
   },
   countContainer: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const DashboardHead = () => {
 
@@ -23,7 +23,7 @@ const themedStyle = StyleService.create({
     height: 200,
   },
   title: {
-    fontSize: hp(2.3),
+    fontSize: RFPercentage(1.8),
     fontWeight: 'bold',
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
@@ -32,7 +32,7 @@ const themedStyle = StyleService.create({
     paddingTop: 20,
   },
   Hoteltitle: {
-    fontSize: hp('4%'),
+    fontSize: RFPercentage(3.5),
     fontWeight: 'bold',
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,

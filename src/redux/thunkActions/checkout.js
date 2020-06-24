@@ -1,15 +1,17 @@
-import { API_URL } from '../../constants';
+import { API_URL } from '../../constants/index';
 import axios from 'axios';
 import Logout from '../../commonFunctions/logout';
 
-const LoadHomeData = async (token) => {
+const CheckOut = async (data, token) => {
   return await axios({
-    method: 'GET',
-    url: API_URL + '/get-vendor-dashboard',
+    method: 'POST',
+    url: API_URL + '/checkout-room',
     headers: {
       'Accept-Language': 'en',
-      'Authorization': token
-    }
+      'Authorization': token,
+      'Content-Type': 'application/json'
+    },
+    data: data
   })
     .then(function (response) {
       return response.data.data;
@@ -22,4 +24,4 @@ const LoadHomeData = async (token) => {
     });
 }
 
-export default LoadHomeData;
+export default CheckOut;

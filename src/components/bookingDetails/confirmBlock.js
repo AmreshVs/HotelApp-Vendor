@@ -7,7 +7,7 @@ const ConfirmBlock = (props) => {
 
   const styles = useStyleSheet(themedStyle);
   var bgClr = '';
-  if (props.status === 1 || props.status === 4) {
+  if (props.status === 1 || props.status === 4 || props.status === 6 || props.status === 7) {
     bgClr = '#19b752';
   }
   if (props.status === 2) {
@@ -22,9 +22,13 @@ const ConfirmBlock = (props) => {
       <Card style={[styles.container, { backgroundColor: bgClr }]}>
         <View style={styles.bookingContainer}>
           <Icon name='checkmark-circle-outline' style={styles.checkIcon} fill={styles.iconColor.color} />
-          <Text style={styles.confirmed}>Booking is {props.status === 5 ? 'Blocked' : props.status_label}!</Text>
-          <Text style={styles.bookingCaption}>Your booking ID is #{props.booking_id}.</Text>
-          {props.transaction_id === '' || props.transaction_id === '-' ? <Text style={styles.caption}>The amount of ₹{props.total} can be payed upon your arrival. This booking can be cancelled anytime here.</Text> : <Text style={styles.caption}> Your payment is successfull and Transaction ID is {props.transaction_id}. Now Check In to your rooms hassle free.</Text>}
+          {props.status !== 6 ?
+            <Text style={styles.confirmed}>Booking is {props.status === 5 ? 'Blocked' : props.status === 7 ? 'completed' : props.status_label}!</Text>
+            :
+            <Text style={styles.confirmed}>{props.status === 6 ? 'Checked In' : 'Checked Out'}!</Text>
+          }
+          <Text style={styles.bookingCaption}>booking ID is #{props.booking_id}.</Text>
+          {props.transaction_id === '' || props.transaction_id === '-' ? <Text style={styles.caption}>The booking has been made for the amount of ₹{props.total}</Text> : <Text style={styles.caption}> Your payment is successfull and Transaction ID is {props.transaction_id}. Now Check In to your rooms hassle free.</Text>}
         </View>
       </Card>
     </Animatable.View>

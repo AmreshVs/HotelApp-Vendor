@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text, StyleService, useStyleSheet, Icon } from '@ui-kitten/components';
 import * as Animatable from 'react-native-animatable';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const InventoryCounts = (props) => {
 
@@ -73,19 +73,19 @@ const themedStyle = StyleService.create({
     flexDirection: 'row',
   },
   count: {
-    fontSize: hp('3%'),
+    fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
     color: 'color-primary-500',
   },
   caption: {
     color: 'color-basic-600',
-    fontSize: hp(2.2)
+    fontSize: RFPercentage(1.8)
   },
   heading: {
     marginLeft: 35,
     marginTop: 15,
     fontWeight: 'bold',
-    fontSize: hp(2.3),
+    fontSize: RFPercentage(1.8),
     color: 'color-basic-700'
   },
   iconContainer:{

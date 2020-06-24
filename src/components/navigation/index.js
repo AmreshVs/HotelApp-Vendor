@@ -2,15 +2,16 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LoginScreen from '../../screen/login/index';
-import Main from '../../screen/Main/index';
-import HomeScreen from '../../screen/home/index';
-import BookingsScreen from '../../screen/bookings/index';
-import UserProfileScreen from '../../screen/userProfile/index';
+import LoginScreen from '../../screen/login';
+import Main from '../../screen/Main';
+import HomeScreen from '../../screen/home';
+import BookingsScreen from '../../screen/bookings';
+import UserProfileScreen from '../../screen/userProfile';
 import BottomNav from '../navigation/bottomNavigation';
 import BookingDetails from '../../screen/bookings/bookingDetails';
-import AgentsScreen from '../../screen/agents/index';
-import NotificationsScreen from '../../screen/notifications/index';
+import AgentsScreen from '../../screen/agents';
+import NotificationsScreen from '../../screen/notifications';
+import DashBookingScreen from '../../screen/dashBookings';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +36,7 @@ const TabNavigator = () => {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="Home" component={TabNavigation} />
       <Stack.Screen name="BookingDetails" component={BookingDetails} />
+      <Stack.Screen name="DashBookingScreen" component={DashBookingScreen} />
     </Stack.Navigator>
   )
 }

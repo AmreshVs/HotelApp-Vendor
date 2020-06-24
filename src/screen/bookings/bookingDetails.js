@@ -10,12 +10,10 @@ import ConfirmBlock from '../../components/bookingDetails/confirmBlock';
 import BookedHotelDetails from '../../components/bookingDetails/BookedHotelDetails';
 import Loader from '../../components/loader';
 
-import ConfirmBlockSK from '../../components/skeletons/bookingDetails/confirmBlockSK';
-import BookedDetailsSK from '../../components/skeletons/bookingDetails/bookedDetailsSK';
 import LoadBookingDetails from '../../redux/thunkActions/loadBookingDetails';
 
 const BookingDetails = (props) => {
-
+  
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyle);
   const [data, setData] = React.useState([]);
@@ -31,9 +29,11 @@ const BookingDetails = (props) => {
   }, []);
 
   const reloadData = async () => {
+    setLoading(true);
     setData([]);
     const response = await LoadBookingDetails(props.access_token, props.route.params.id);
     setData(response[0]);
+    setLoading(false);
   }
 
   const RefreshIcon = () => <Icon name='refresh-outline' fill='#FFF' />;

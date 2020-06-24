@@ -9,6 +9,7 @@ import ReadNotification from '../../commonFunctions/readNotifications';
 import UpdateBookingStatus from '../../commonFunctions/update-booking-status';
 import SaveNotification from '../../commonFunctions/saveNotification';
 import SendNotification from '../../commonFunctions/sendNotification';
+import CheckOut from '../../redux/thunkActions/checkout';
 
 const BookedHotelDetails = (props) => {
 
@@ -16,6 +17,14 @@ const BookedHotelDetails = (props) => {
 
   const CloseIcon = () => (
     <Icon style={styles.btnIcons} name='close-circle-outline' fill='#FFF' />
+  );
+
+  const CheckInIcon = () => (
+    <Icon style={styles.btnIcons} name='log-in-outline' fill='#FFF' />
+  );
+
+  const CheckOutIcon = () => (
+    <Icon style={styles.btnIcons} name='log-out-outline' fill='#FFF' />
   );
 
   const ApproveIcon = () => (
@@ -49,8 +58,20 @@ const BookedHotelDetails = (props) => {
     );
   }
 
+  const checkIn = async () => {
+    await UpdateBookingStatus({ booking_id: props.data.booking_id, status: 6 }, props.token);
+    props.reloadData();
+  }
+
+  const checkOut = async () => {
+    let rawData = JSON.parse(props.data.cart);
+    let modifiedData = { ...rawData, booking_id: props.data.booking_id, dates: { ...rawData.dates, endDate: new Date() }};
+    const response = await CheckOut(modifiedData, props.token);
+    props.reloadData();
+  }
+
   const approveBook = async () => {
-    UpdateBookingStatus({ booking_id: props.data.booking_id, status: 1 }, props.token);
+    await UpdateBookingStatus({ booking_id: props.data.booking_id, status: 4 }, props.token);
     const status = await ReadNotification({ id: props.notify_id }, props.token);
     const heading = "Your Booking is confirmed";
     const content = "Your Booking with ID " + props.data.booking_id + " has been approved!";
@@ -110,12 +131,16 @@ const BookedHotelDetails = (props) => {
           {props.data.service.map((item) =>
             <View style={styles.serviceContainer} key={item.id}>
               <Text style={styles.serviceCaption}>{item.title}</Text>
-              <Text style={styles.caption}>₹{item.price}</Text>
+              <Text style={styles.priceCaption}>₹{item.price + ' X ' + item.qty}</Text>
             </View>
           )}
           <View style={styles.serviceContainer}>
             <Text style={styles.serviceCaption}>Discount</Text>
-            <Text style={styles.caption}>₹{props.data.discount}</Text>
+            <Text style={styles.priceCaption}>- ₹{props.data.discount}</Text>
+          </View>
+          <View style={styles.serviceContainer}>
+            <Text style={styles.serviceCaption}>Tax</Text>
+            <Text style={styles.priceCaption}>₹{props.data.tax}</Text>
           </View>
           <View style={styles.serviceContainer}>
             <Text style={styles.serviceCaption}>Total</Text>
@@ -124,7 +149,9 @@ const BookedHotelDetails = (props) => {
         </View>
         <View style={styles.hrLine}></View>
         <View style={styles.btnContainer}>
-          <Button style={styles.btns} status='danger' size='small' icon={CloseIcon} disabled={props.data.status === 1 ? false : true} onPress={cancelBook}>Cancel Booking</Button>
+          {props.data.status !== 6 && props.data.status !== 7 && <Button style={styles.btns} status='danger' size='small' icon={CloseIcon} disabled={props.data.status === 1 ? false : true} onPress={cancelBook}>Cancel Booking</Button>}
+          <Button style={styles.btns} status='primary' size='small' icon={CheckInIcon} disabled={props.data.status === 6 ? true : false} onPress={checkIn}>Check In</Button>
+          {props.data.status === 6 && <Button style={styles.btns} status='primary' size='small' icon={CheckOutIcon} onPress={checkOut}>Check Out</Button>}
           {props.user_type === 'editor' &&
             <Button style={styles.btns} status='primary' size='small' icon={ApproveIcon} disabled={props.data.status === 2 ? false : true} onPress={approveBook}>Approve Booking</Button>
           }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import * as Animatable from 'react-native-animatable';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const HeadCount = (props) => {
 
@@ -56,13 +56,13 @@ const themedStyle = StyleService.create({
     elevation: 5,
   },
   count: {
-    fontSize: hp('3%'),
+    fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
     color: 'color-primary-500',
   },
   caption: {
     color: 'color-basic-600',
-    fontSize: hp('2.2')
+    fontSize: RFPercentage(1.8)
   },
   countContainer: {
     width: '50%',
