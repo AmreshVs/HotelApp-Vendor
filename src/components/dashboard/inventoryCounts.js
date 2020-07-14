@@ -73,7 +73,7 @@ const themedStyle = StyleService.create({
     flexDirection: 'row',
   },
   count: {
-    fontSize: RFPercentage(2.5),
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'color-primary-500',
   },
@@ -85,7 +85,7 @@ const themedStyle = StyleService.create({
     marginLeft: 35,
     marginTop: 15,
     fontWeight: 'bold',
-    fontSize: RFPercentage(1.8),
+    fontSize: 17,
     color: 'color-basic-700'
   },
   iconContainer:{
